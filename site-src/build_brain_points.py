@@ -1,11 +1,12 @@
 import json
+import pathlib
 import random
 from PIL import Image, ImageDraw
 
-SCRATCH = r"C:\Users\aj_al\AppData\Local\Temp\claude\C--Users-aj-al\e013dfe4-2999-408f-8e09-1431445e66b6\scratchpad"
+SRC = pathlib.Path(__file__).resolve().parent
 random.seed(42)
 
-img = Image.open(SCRATCH + r"\brain_nih.png").convert("RGB")
+img = Image.open(SRC / "brain_nih.png").convert("RGB")
 W, H = img.size
 px = img.load()
 
@@ -78,7 +79,7 @@ for x, y, k, ln in pts:
         c = random.randrange(6)
     out.append([round((x - cx) * scale, 2), round((y - cy) * scale, 2), round(k, 2), c])
 
-with open(SCRATCH + r"\brainpts.json", "w") as f:
+with open(SRC / "brainpts.json", "w") as f:
     json.dump(out, f, separators=(",", ":"))
 print("points:", len(out), "json bytes:", len(json.dumps(out, separators=(',', ':'))))
 
@@ -97,5 +98,5 @@ for ux, uy, k, c in out:
     import math
     tri = [(sx + s * math.cos(rot + t), sy + s * math.sin(rot + t)) for t in (0, 2.09, 4.19)]
     d.polygon(tri, outline=rgb)
-pv.save(SCRATCH + r"\brain_preview.png")
+pv.save(SRC / "brain_preview.png")
 print("preview written")
