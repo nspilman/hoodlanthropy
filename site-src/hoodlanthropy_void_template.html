@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hoodlanthropy — Philanthropic Advisory for Sport</title>
+<!--FONTFACE-->
+<style>
+  :root {
+    --void: #000000;
+    --bone: #ffffff;
+    --ash: #9a9a9a;
+    --silver: #bdbdbd;
+    --amber: #e87722;        /* primary action — Hoodlanthropy brand */
+    --spark: #ffb829;        /* warm highlight */
+    --court: #35a87a;        /* court green lifted for black canvas */
+    --court-deep: #1f5e3f;
+    --sky: #4e87b8;
+    --rose: #c14654;
+    --max: 1280px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    background: var(--void);
+    color: var(--bone);
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-weight: 200;
+    font-size: 18px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 36px; }
+
+  ::selection { background: var(--amber); color: var(--void); }
+
+  a { color: var(--bone); text-decoration: none; }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--spark);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* ---------- NAV ---------- */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 0;
+    position: relative;
+    z-index: 5;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    color: var(--bone);
+  }
+  .logo svg { display: block; }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+  }
+  .nav-links a {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.35px;
+    text-transform: uppercase;
+    color: var(--ash);
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--bone); }
+
+  .pill {
+    display: inline-block;
+    background: var(--amber);
+    color: var(--void);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.35px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 24px;
+    padding: 14px 24px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .pill:hover { background: var(--spark); transform: translateY(-1px); }
+  .nav-links .pill { color: var(--void); }
+
+  /* ---------- TYPE ROLES ---------- */
+  .label {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.35px;
+    text-transform: uppercase;
+    color: var(--court);
+    display: block;
+    margin-bottom: 24px;
+  }
+  .display {
+    font-size: clamp(52px, 8.6vw, 113px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
+  .h-lg {
+    font-size: clamp(44px, 6vw, 78px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
+  .h-sm {
+    font-size: clamp(30px, 3.2vw, 42px);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -1.68px;
+    text-wrap: balance;
+  }
+  .body-copy {
+    font-weight: 200;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--silver);
+    max-width: 520px;
+  }
+  .body-copy strong { font-weight: 400; color: var(--bone); }
+  .em-spark { color: var(--spark); }
+  .em-court { color: var(--court); }
+
+  section { padding: 120px 0 0; }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    min-height: 78vh;
+    padding: 60px 0 96px;
+    position: relative;
+  }
+  .hero-copy { position: relative; z-index: 2; }
+  .hero-copy .body-copy { margin: 30px 0 36px; max-width: 480px; }
+  .hero-cta { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .ghost {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--ash);
+    letter-spacing: 0.35px;
+    text-transform: uppercase;
+  }
+  .hero-viz { position: relative; min-height: 480px; }
+  #constellation {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .wrap { position: relative; z-index: 1; }
+
+  /* ---------- NUMBERS ---------- */
+  .numbers {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 36px;
+  }
+  .num .figure {
+    font-size: clamp(36px, 4vw, 48px);
+    font-weight: 400;
+    letter-spacing: -1.68px;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 12px;
+  }
+  .num .figure em { font-style: normal; color: var(--amber); }
+  .num .desc {
+    font-size: 14px;
+    font-weight: 200;
+    color: var(--ash);
+    line-height: 1.5;
+    max-width: 220px;
+  }
+
+  /* ---------- TWO-COL SECTIONS (zigzag) ---------- */
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 96px;
+    align-items: start;
+  }
+  .split.rev > .split-copy { order: 2; }
+  .split.rev > .split-side { order: 1; }
+
+  /* ---------- PILLARS ---------- */
+  .pillar-list { display: flex; flex-direction: column; gap: 30px; }
+  .pillar { display: grid; grid-template-columns: 60px 1fr; gap: 18px; align-items: baseline; }
+  .pillar .n {
+    font-size: 27px;
+    font-weight: 400;
+    color: var(--court);
+    font-variant-numeric: tabular-nums;
+  }
+  .pillar .t { font-size: 24px; font-weight: 400; letter-spacing: -0.48px; line-height: 1.25; }
+  .pillar .t span { display: block; font-size: 14px; font-weight: 200; color: var(--ash); margin-top: 6px; letter-spacing: 0; line-height: 1.5; max-width: 420px; }
+  .pillar-cta {
+    display: inline-block;
+    margin-top: 48px;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--spark);
+    max-width: 420px;
+    line-height: 1.5;
+    transition: color 0.2s;
+  }
+  .pillar-cta:hover { color: var(--bone); }
+
+  /* ---------- ENGAGEMENTS ---------- */
+  .tiers { display: flex; flex-direction: column; }
+  .tier {
+    display: grid;
+    grid-template-columns: 150px 1fr 240px;
+    gap: 36px;
+    align-items: baseline;
+    padding: 36px 0;
+  }
+  .tier .tag {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.35px;
+    text-transform: uppercase;
+  }
+  .tier:nth-child(1) .tag { color: var(--amber); }
+  .tier:nth-child(2) .tag { color: var(--court); }
+  .tier:nth-child(3) .tag { color: var(--sky); }
+  .tier:nth-child(4) .tag { color: var(--rose); }
+  .tier h3 { font-size: 27px; font-weight: 400; line-height: 1.15; letter-spacing: -0.48px; margin-bottom: 6px; }
+  .tier p { font-size: 15px; font-weight: 200; color: var(--ash); max-width: 440px; }
+  .tier .price {
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: -0.48px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .tier .price span {
+    display: block;
+    font-size: 12px;
+    font-weight: 200;
+    color: var(--ash);
+    letter-spacing: 0.35px;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+
+  /* ---------- FOUNDER ---------- */
+  .founder-carousel { width: 100%; max-width: 420px; }
+  .fc-frame {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: 24px;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 30% 25%, rgba(232,119,34,0.45), transparent 60%),
+      radial-gradient(circle at 75% 80%, rgba(31,94,63,0.6), transparent 65%),
+      #0a0a0a;
+  }
+  .fc-frame .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  .fc-frame .slide.open { opacity: 1; }
+  .fc-frame img {
+    width: 88%;
+    height: 94%;
+    object-fit: contain;
+    object-position: bottom;
+  }
+  .fc-frame video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .fc-dots {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 30px;
+  }
+  .fc-dots .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    background: #3a3a3a;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .fc-dots .dot:hover { background: var(--ash); }
+  .fc-dots .dot.active { background: var(--amber); }
+  .creds { display: flex; gap: 30px; flex-wrap: wrap; margin-top: 36px; }
+  .cred-btn {
+    background: none;
+    border: none;
+    padding: 0 0 6px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.35px;
+    text-transform: uppercase;
+    color: var(--ash);
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .cred-btn:hover { color: var(--bone); }
+  .cred-btn.active { color: var(--spark); border-bottom-color: var(--spark); }
+  .cred-panels { margin-top: 24px; }
+  .cred-panel { display: none; }
+  .cred-panel.open { display: block; animation: cred-in 0.35s ease both; }
+  @keyframes cred-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cred-panel.open { animation: none; }
+  }
+  .cred-panel .body-copy { font-size: 15px; }
+  .orgs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 12px 30px;
+    margin: 24px 0;
+  }
+  .org {
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: -0.2px;
+    color: var(--bone);
+    opacity: 0.75;
+    white-space: nowrap;
+  }
+  .org:nth-child(odd) { font-weight: 200; letter-spacing: 0.4px; text-transform: uppercase; font-size: 14px; }
+
+  /* ---------- CTA ---------- */
+  .cta-final { text-align: left; padding-bottom: 60px; }
+  .cta-final .display { max-width: 900px; }
+  .cta-final .display em { font-style: normal; color: var(--amber); }
+  .cta-final .body-copy { margin: 36px 0; }
+  .cta-final .email {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.35px;
+    color: var(--spark);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+    padding: 60px 0 48px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.35px;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+  footer .mid { color: var(--amber); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; min-height: 0; }
+    .hero-viz { min-height: 380px; order: -1; }
+    .numbers { grid-template-columns: repeat(2, 1fr); gap: 48px 36px; }
+    .split, .split.rev { grid-template-columns: 1fr; gap: 48px; }
+    .split.rev > .split-copy { order: 1; }
+    .split.rev > .split-side { order: 2; }
+    .tier { grid-template-columns: 1fr; gap: 8px; padding: 30px 0; }
+    .tier .price { text-align: left; margin-top: 6px; }
+    .nav-links a:not(.pill) { display: none; }
+    section { padding-top: 96px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="constellation" aria-hidden="true"></canvas>
+
+<div class="wrap">
+
+  <!-- NAV -->
+  <nav>
+    <a class="logo" href="#top" aria-label="Hoodlanthropy home">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
+        <defs>
+          <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#e87722"/>
+            <stop offset="1" stop-color="#1f5e3f"/>
+          </linearGradient>
+        </defs>
+        <path d="M13 1 L25 23 L1 23 Z" fill="url(#lg)"/>
+      </svg>
+      Hoodlanthropy
+    </a>
+    <div class="nav-links">
+      <a href="#method">Method</a>
+      <a href="#engagements">Engagements</a>
+      <a href="#founder">Founder</a>
+      <a class="pill" href="mailto:medinad1001@gmail.com?subject=Intro%20call">Book a Free Call</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" id="top">
+    <div class="hero-copy">
+      <span class="label">Philanthropic advisory for sport</span>
+      <h1 class="display">You've got the platform. We've got the playbook.</h1>
+      <p class="body-copy">We help athletes, owners, foundations &amp; teams move money well — with the discipline of <strong>major-donor philanthropy</strong> and a vetted network of <strong>100+ nonprofits</strong> doing the work that matters.</p>
+      <div class="hero-cta">
+        <a class="pill" href="mailto:medinad1001@gmail.com?subject=Intro%20call">Book a Free Call</a>
+        <span class="ghost">20 minutes · no pitch · no obligation</span>
+      </div>
+    </div>
+    <div class="hero-viz" id="brainAnchor" aria-hidden="true"></div>
+  </header>
+
+  <!-- NUMBERS -->
+  <section aria-label="Track record">
+    <div class="numbers">
+      <div class="num">
+        <div class="figure"><em>14+</em> yrs</div>
+        <div class="desc">Stewarding major gifts across every way generosity moves.</div>
+      </div>
+      <div class="num">
+        <div class="figure">$50K–$3M</div>
+        <div class="desc">Individual gift sizes personally managed.</div>
+      </div>
+      <div class="num">
+        <div class="figure"><em>100+</em></div>
+        <div class="desc">Vetted nonprofit partners, evaluated before any introduction.</div>
+      </div>
+      <div class="num">
+        <div class="figure">$400M+</div>
+        <div class="desc">Annual CSR spend across the four major US leagues — most of it without strategic infrastructure.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HARD PART -->
+  <section>
+    <div class="split">
+      <div class="split-copy">
+        <span class="label">The hard part</span>
+        <h2 class="h-lg">Giving is easy. Giving <span class="em-spark">well</span> is the hard part.</h2>
+      </div>
+      <div class="split-side">
+        <p class="body-copy">That hard part is what I do. For fourteen years I've worked across every way generosity moves — major gifts, corporate and institutional giving, individual donors, legacy and estate gifts, and conference sponsorship — making sure it reached the people who needed it most.</p>
+        <p class="body-copy" style="margin-top:24px">I built Hoodlanthropy to bring that full-spectrum discipline to sport, so your generosity creates <strong>real change</strong> — and you can prove it did.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUNDER -->
+  <section id="founder">
+    <div class="split">
+      <div class="split-copy">
+        <span class="label">Principal &amp; Founder</span>
+        <h2 class="h-lg">Dennis Medina.</h2>
+        <p class="body-copy" style="margin-top:30px">Major-gifts fundraiser trained inside <strong>Médecins Sans Frontières / Doctors Without Borders</strong> — managing HNW &amp; UHNW donor portfolios for one of the world's most rigorously evaluated humanitarian organizations. Georgetown, Sports Industry Management.</p>
+        <div class="creds" role="tablist" aria-label="Credentials">
+          <button class="cred-btn active" data-panel="p-msf" aria-expanded="true">MSF / DWB</button>
+          <button class="cred-btn" data-panel="p-gtown" aria-expanded="false">Georgetown</button>
+          <button class="cred-btn" data-panel="p-partners" aria-expanded="false">100+ Partners</button>
+        </div>
+        <div class="cred-panels">
+          <div class="cred-panel open" id="p-msf">
+            <p class="body-copy">Major Gifts Officer at <strong>Doctors Without Borders / MSF-USA</strong>, managing HNW &amp; UHNW portfolios for one of the world's largest independent humanitarian organizations. The vetting standard Hoodlanthropy runs on was learned here — mission first, always.</p>
+          </div>
+          <div class="cred-panel" id="p-gtown">
+            <p class="body-copy"><strong>M.S., Sports Industry Management — Georgetown University, 2023.</strong> Two years inside the business of sport, studying how its capital actually moves. The capstone, <strong>The Catalyst Playbook&trade;</strong>, became the seven-pillar methodology this firm runs on — Hoodlanthropy didn't start as a pitch; it started as a thesis.</p>
+          </div>
+          <div class="cred-panel" id="p-partners">
+            <p class="body-copy">Fourteen years inside and alongside organizations moving serious money for serious causes:</p>
+            <div class="orgs" aria-label="Organizations">
+              <span class="org">Doctors Without Borders</span>
+              <span class="org">First Book</span>
+              <span class="org">Prosperity Now</span>
+              <span class="org">Third Win Group</span>
+              <span class="org">Knoll Court Associates</span>
+            </div>
+            <p class="body-copy" style="font-size:14px">…plus a vetted network of <strong>100+ nonprofits</strong> with direct executive-director relationships, evaluated before any introduction.</p>
+          </div>
+        </div>
+      </div>
+      <div class="split-side">
+        <div class="founder-carousel">
+          <div class="fc-frame">
+            <div class="slide open"><img src="__MEDIA_IMG__" alt="Illustrated portrait of Dennis Medina"></div>
+            <div class="slide"><video src="__MEDIA_VID1__" muted loop playsinline preload="metadata" aria-label="Animated portrait of Dennis Medina at work"></video></div>
+            <div class="slide"><video src="__MEDIA_VID2__" muted loop playsinline preload="metadata" aria-label="Animated visualization — inside the founder's mind"></video></div>
+          </div>
+          <div class="fc-dots" role="tablist" aria-label="Founder media carousel">
+            <button class="dot active" aria-label="Portrait" aria-selected="true"></button>
+            <button class="dot" aria-label="Video: at work" aria-selected="false"></button>
+            <button class="dot" aria-label="Video: the mind" aria-selected="false"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METHOD -->
+  <section id="method">
+    <div class="split rev">
+      <div class="split-copy">
+        <span class="label">Methodology</span>
+        <h2 class="h-lg">The <span class="em-court">7 Pillars</span>.</h2>
+        <p class="body-copy" style="margin-top:30px">Built on participatory grantmaking, trust-based philanthropy, and the lived experience of the communities our clients serve. We know which $5M gift is a gift — and which is malpractice.</p>
+      </div>
+      <div class="split-side">
+        <div class="pillar-list">
+          <div class="pillar"><span class="n">01</span><div class="t">Mission &amp; Vision<span>What should your name stand for in ten years? We answer that first — every dollar after follows from it.</span></div></div>
+          <div class="pillar"><span class="n">02</span><div class="t">Leadership Consulting<span>Boards, family, agents — everyone has an opinion. Fourteen years steering donor rooms keeps yours aligned.</span></div></div>
+          <div class="pillar"><span class="n">03</span><div class="t">Issue Assessment<span>Before anything moves, we map the field the way MSF taught us: who does the work, what's proven, what's noise.</span></div></div>
+          <div class="pillar"><span class="n">04</span><div class="t">Program Design<span>Trust-based, participatory grantmaking — the model the world's best funders use, not celebrity-foundation theater.</span></div></div>
+          <div class="pillar"><span class="n">05</span><div class="t">Budgets &amp; Grants<span>We've personally stewarded gifts from $50K to $3M. Your budget gets the rigor a humanitarian ledger demands.</span></div></div>
+          <div class="pillar"><span class="n">06</span><div class="t">Creative Reporting<span>Impact you can show a locker room, a boardroom, or a journalist — proof, not press releases.</span></div></div>
+          <div class="pillar"><span class="n">07</span><div class="t">Roadmap Creation<span>You leave with a year-one plan any operator could run. Most clients keep us in the seat instead.</span></div></div>
+        </div>
+        <a class="pillar-cta" href="mailto:medinad1001@gmail.com?subject=Intro%20call">Every pillar is a conversation we've had a hundred times. Have yours — 20 minutes, free &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENGAGEMENTS -->
+  <section id="engagements">
+    <span class="label">Engagements</span>
+    <h2 class="h-lg" style="margin-bottom:60px">How we work.</h2>
+    <div class="tiers">
+      <div class="tier">
+        <span class="tag">Tier I — Wedge</span>
+        <div>
+          <h3>Cause Matching &amp; Concierge Giving</h3>
+          <p>Values discovery, vetted shortlists, due diligence, warm intros to executive directors.</p>
+        </div>
+        <div class="price">$15K–$40K<span>per engagement</span></div>
+      </div>
+      <div class="tier">
+        <span class="tag">Tier II — Build</span>
+        <div>
+          <h3>Foundation Design &amp; Launch</h3>
+          <p>Full 7-pillar buildout. Mission, governance, programs, year-one strategy.</p>
+        </div>
+        <div class="price">$75K–$150K<span>per project</span></div>
+      </div>
+      <div class="tier">
+        <span class="tag">Tier III — Recurring</span>
+        <div>
+          <h3>Outsourced Philanthropic Office</h3>
+          <p>Ongoing advisory. Grant review, impact reporting, inbound vetting.</p>
+        </div>
+        <div class="price">$10K–$25K<span>monthly retainer</span></div>
+      </div>
+      <div class="tier">
+        <span class="tag">Tier IV — Enterprise</span>
+        <div>
+          <h3>Team &amp; League Engagements</h3>
+          <p>Catalyst Playbook&trade; for team foundations &amp; CSR departments.</p>
+        </div>
+        <div class="price">$50K–$200K<span>per engagement</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-final" id="heartAnchor">
+    <h2 class="display">I care, <em>because you care.</em></h2>
+    <p class="body-copy">If you have a platform and the will to use it well — and want your support to move the needle — we should speak. Discovery calls are private and complimentary.</p>
+    <div class="hero-cta">
+      <a class="pill" href="mailto:medinad1001@gmail.com?subject=Intro%20call">Book a Free Call</a>
+      <a class="email" href="mailto:medinad1001@gmail.com">medinad1001@gmail.com</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>© Hoodlanthropy LLC · 2026</span>
+    <span class="mid">— Committing Sport to Impact —</span>
+    <span>Washington DC · By Referral</span>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  var canvas = document.getElementById('constellation');
+  var ctx = canvas.getContext('2d');
+  var heartAnchor = document.getElementById('heartAnchor');
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var COLORS = ['#e87722', '#ffb829', '#35a87a', '#4e87b8', '#c14654', '#f0955a', '#f5efe6'];
+  var DPR = Math.min(devicePixelRatio || 1, 2);
+  var particles = [];
+  var W, H, raf;
+  var scroll = 0, scrollEased = 0;
+
+  // classic parametric heart, y flipped for canvas
+  function heartPoint(t) {
+    return {
+      x: 16 * Math.pow(Math.sin(t), 3),
+      y: -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t))
+    };
+  }
+
+  // brain point cloud [x, y, brightness, colorIndex] sampled at build time from a
+  // public-domain NIH brain photo: density+brightness follow real gyri shading,
+  // 22% of points trace the silhouette, colors cluster in patches, white = ridge highlights
+  var BRAIN_PTS = __BRAIN_PTS__;
+
+  function heartSample() {
+    var t = Math.random() * Math.PI * 2;
+    var r = Math.pow(Math.random(), 0.45); // bias toward outline
+    var p = heartPoint(t);
+    return { x: p.x * r, y: p.y * r };
+  }
+
+  function build() {
+    W = canvas.width = innerWidth * DPR;
+    H = canvas.height = innerHeight * DPR;
+    particles = [];
+    var N = BRAIN_PTS.length;
+    for (var i = 0; i < N; i++) {
+      var b = BRAIN_PTS[i], h = heartSample();
+      var j1 = (Math.random() - 0.5) * 0.9, j2 = (Math.random() - 0.5) * 0.9;
+      particles.push({
+        bx: b[0], by: b[1], bk: b[2],        // brain coords + shading brightness
+        hx: h.x + j1, hy: h.y + j2,          // heart-space coords
+        sx: Math.random() * W,               // scattered viewport coords
+        sy: Math.random() * H,
+        s: (1.1 + Math.random() * 2.4) * DPR,
+        c: COLORS[b[3]],
+        a: 0.25 + Math.random() * 0.75,
+        rot: Math.random() * Math.PI * 2,
+        ph: Math.random() * Math.PI * 2,
+        sp: 0.4 + Math.random() * 0.9,
+        orb: (2 + Math.random() * 5) * DPR   // ambient orbit radius
+      });
+    }
+  }
+
+  function ease(t) { return t < 0 ? 0 : t > 1 ? 1 : t * t * (3 - 2 * t); }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function tri(x, y, p, tw, alpha, wob) {
+    var o = p.orb * wob;
+    ctx.save();
+    ctx.translate(x + Math.cos(tw * p.sp + p.ph) * o, y + Math.sin(tw * p.sp * 0.8 + p.ph) * o);
+    ctx.rotate(p.rot + tw * 0.15 * p.sp);
+    ctx.globalAlpha = alpha * p.a * (0.6 + 0.4 * Math.sin(tw * p.sp * 1.7 + p.ph));
+    ctx.strokeStyle = p.c;
+    ctx.lineWidth = Math.max(1, DPR);
+    ctx.beginPath();
+    ctx.moveTo(0, -p.s);
+    ctx.lineTo(p.s * 0.87, p.s * 0.5);
+    ctx.lineTo(-p.s * 0.87, p.s * 0.5);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // choreography: brain right (hero) → glides left & grows → disperses → heart (CTA)
+  var PM = 0.16, PD1 = 0.30, PD2 = 0.50, PH1 = 0.62, PH2 = 0.97;
+
+  function draw(ms) {
+    ctx.clearRect(0, 0, W, H);
+    var tw = ms / 1000;
+
+    scroll = window.scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight);
+    scrollEased += (scroll - scrollEased) * (reduced ? 1 : 0.07);
+    var p = scrollEased;
+
+    var tMove = ease(p / PM);
+    var tDiss = ease((p - PD1) / (PD2 - PD1));
+    var tHeart = ease((p - PH1) / (PH2 - PH1));
+
+    var portrait = W < H;
+    var sA = (portrait ? Math.min(W * 0.95, H * 0.45) : Math.min(W * 0.42, H * 0.82)) / 33;
+    var axA = portrait ? W * 0.5 : W * 0.70;
+    var ayA = portrait ? H * 0.36 : H * 0.5;
+    var bcx = lerp(axA, W * 0.16, tMove);
+    var bcy = lerp(ayA, H * 0.52, tMove);
+    var bsc = lerp(sA, sA * 1.9, tMove);
+    var bBase = lerp(1, 0.62, tMove);  // dims as it slides beneath content
+
+    var hr = heartAnchor.getBoundingClientRect();
+    var hcx = (hr.left + hr.width * 0.72) * DPR;
+    var hcy = (hr.top + hr.height * 0.42) * DPR;
+    var hsc = Math.min(hr.width * 0.5, innerHeight * 0.85) * DPR / 38;
+
+    for (var i = 0; i < particles.length; i++) {
+      var pt = particles[i];
+      var x, y, alpha, wob;
+      if (tHeart <= 0) {
+        x = lerp(bcx + pt.bx * bsc, pt.sx, tDiss);
+        y = lerp(bcy + pt.by * bsc, pt.sy, tDiss);
+        alpha = lerp(pt.bk * bBase, 0.3, tDiss);
+        wob = lerp(0.3, 1, tDiss);   // crisp folds when formed, free drift when dispersed
+      } else {
+        x = lerp(pt.sx, hcx + pt.hx * hsc, tHeart);
+        y = lerp(pt.sy, hcy + pt.hy * hsc, tHeart);
+        alpha = lerp(0.3, 1, tHeart);
+        wob = lerp(1, 0.5, tHeart);
+      }
+      tri(x, y, pt, tw, alpha, wob);
+    }
+    if (!reduced) raf = requestAnimationFrame(draw);
+  }
+
+  function start() {
+    cancelAnimationFrame(raf);
+    build();
+    if (reduced) { draw(1000); } else { raf = requestAnimationFrame(draw); }
+  }
+
+  if (reduced) {
+    // no continuous loop: single static redraw per scroll/resize keeps shapes anchored
+    window.addEventListener('scroll', function () { draw(1000); }, { passive: true });
+  }
+
+  var rt;
+  window.addEventListener('resize', function () {
+    clearTimeout(rt);
+    rt = setTimeout(start, 200);
+  });
+  start();
+})();
+
+(function () {
+  var slides = [].slice.call(document.querySelectorAll('.fc-frame .slide'));
+  var dots = [].slice.call(document.querySelectorAll('.fc-dots .dot'));
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var idx = 0, timer;
+
+  function show(i) {
+    idx = i;
+    slides.forEach(function (s, k) {
+      s.classList.toggle('open', k === i);
+      var v = s.querySelector('video');
+      if (v) {
+        v.muted = true;
+        if (k === i) { v.play().catch(function () {}); } else { v.pause(); }
+      }
+    });
+    dots.forEach(function (d, k) {
+      d.classList.toggle('active', k === i);
+      d.setAttribute('aria-selected', k === i ? 'true' : 'false');
+    });
+  }
+
+  function restart() {
+    clearInterval(timer);
+    if (!reduced) timer = setInterval(function () { show((idx + 1) % slides.length); }, 6000);
+  }
+
+  dots.forEach(function (d, k) {
+    d.addEventListener('click', function () { show(k); restart(); });
+  });
+
+  show(0);
+  restart();
+})();
+
+(function () {
+  var btns = document.querySelectorAll('.cred-btn');
+  btns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      btns.forEach(function (b) {
+        b.classList.remove('active');
+        b.setAttribute('aria-expanded', 'false');
+      });
+      document.querySelectorAll('.cred-panel').forEach(function (p) {
+        p.classList.remove('open');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-expanded', 'true');
+      document.getElementById(btn.dataset.panel).classList.add('open');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
