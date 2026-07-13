@@ -38,9 +38,6 @@
 
   .wrap { max-width: var(--max); margin: 0 auto; padding: 0 36px; }
 
-  html { scroll-behavior: smooth; }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-
   ::selection { background: var(--amber); color: var(--void); }
 
   a { color: var(--bone); text-decoration: none; }
@@ -463,6 +460,7 @@
     .form-row { grid-template-columns: 1fr; }
     .nav-links a:not(.pill) { display: none; }
     section { padding-top: 96px; }
+    #intake .intake-form { margin-top: 520px; }  /* clearing for the heart — see portrait targeting in draw() */
   }
 </style>
 </head>
@@ -954,6 +952,7 @@
     var tHeart = ease((p - PH1) / (PH2 - PH1));
 
     var portrait = W < H;
+    var amb = portrait ? 0.18 : 0.3;   // dispersed-field alpha — fainter on phones so text stays clean
     var sA = (portrait ? Math.min(W * 0.95, H * 0.45) : Math.min(W * 0.42, H * 0.82)) / 33;
     var axA = portrait ? W * 0.5 : W * 0.70;
     var ayA = portrait ? H * 0.36 : H * 0.5;
@@ -963,9 +962,18 @@
     var bBase = lerp(1, 0.62, tMove);  // dims as it slides beneath content
 
     var hr = heartAnchor.getBoundingClientRect();
-    var hcx = (hr.left + hr.width * 0.72) * DPR;
-    var hcy = (hr.top + hr.height * 0.42) * DPR;
-    var hsc = Math.min(hr.width * 0.5, innerHeight * 0.85) * DPR / 38;
+    var hcx, hcy, hsc;
+    if (portrait) {
+      // centered in the mobile-only clearing above the form (see #intake margin in the 900px media query)
+      var fr = document.getElementById('intakeForm').getBoundingClientRect();
+      hcx = (hr.left + hr.width * 0.5) * DPR;
+      hcy = (fr.top - 270) * DPR;
+      hsc = Math.min(hr.width * 0.9, 480) * DPR / 38;
+    } else {
+      hcx = (hr.left + hr.width * 0.72) * DPR;
+      hcy = (hr.top + hr.height * 0.42) * DPR;
+      hsc = Math.min(hr.width * 0.5, innerHeight * 0.85) * DPR / 38;
+    }
 
     for (var i = 0; i < particles.length; i++) {
       var pt = particles[i];
@@ -973,12 +981,12 @@
       if (tHeart <= 0) {
         x = lerp(bcx + pt.bx * bsc, pt.sx, tDiss);
         y = lerp(bcy + pt.by * bsc, pt.sy, tDiss);
-        alpha = lerp(pt.bk * bBase, 0.3, tDiss);
+        alpha = lerp(pt.bk * bBase, amb, tDiss);
         wob = lerp(0.3, 1, tDiss);   // crisp folds when formed, free drift when dispersed
       } else {
         x = lerp(pt.sx, hcx + pt.hx * hsc, tHeart);
         y = lerp(pt.sy, hcy + pt.hy * hsc, tHeart);
-        alpha = lerp(0.3, 1, tHeart);
+        alpha = lerp(amb, 1, tHeart);
         wob = lerp(1, 0.5, tHeart);
       }
       tri(x, y, pt, tw, alpha, wob);
