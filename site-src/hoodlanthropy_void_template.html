@@ -930,8 +930,10 @@
   }
 
   // choreography: brain right (hero) → glides left & grows → disperses → heart (intake form)
-  // PH1/PH2 recomputed in start() so the heart completes as the intake section centers in view
-  var PM = 0.16, PD1 = 0.30, PD2 = 0.50, PH1 = 0.62, PH2 = 0.97;
+  // dispersal starts early and overlaps the glide so the brain melts away mid-move
+  // instead of finishing the slide and then popping; PH1/PH2 recomputed in start()
+  // so the heart completes as the intake section centers in view
+  var PM = 0.34, PD1 = 0.12, PD2 = 0.55, PH1 = 0.62, PH2 = 0.97;
   function computePhases() {
     var max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
     var r = heartAnchor.getBoundingClientRect();
