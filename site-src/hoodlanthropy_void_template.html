@@ -460,7 +460,7 @@
     .form-row { grid-template-columns: 1fr; }
     .nav-links a:not(.pill) { display: none; }
     section { padding-top: 96px; }
-    #intake .intake-form { margin-top: 360px; }  /* clearing for the heart — see portrait targeting in draw() */
+    #intake .intake-form { margin-top: 520px; }  /* clearing for the heart — see portrait targeting in draw() */
   }
 </style>
 </head>
@@ -967,8 +967,8 @@
       // centered in the mobile-only clearing above the form (see #intake margin in the 900px media query)
       var fr = document.getElementById('intakeForm').getBoundingClientRect();
       hcx = (hr.left + hr.width * 0.5) * DPR;
-      hcy = (fr.top - 205) * DPR;
-      hsc = Math.min(hr.width * 0.6, 320) * DPR / 38;
+      hcy = (fr.top - 270) * DPR;
+      hsc = Math.min(hr.width * 0.9, 480) * DPR / 38;
     } else {
       hcx = (hr.left + hr.width * 0.72) * DPR;
       hcy = (hr.top + hr.height * 0.42) * DPR;
