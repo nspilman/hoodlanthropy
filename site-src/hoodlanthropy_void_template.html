@@ -9,7 +9,7 @@
   :root {
     --void: #000000;
     --bone: #ffffff;
-    --ash: #9a9a9a;
+    --ash: #a8a8a8;
     --silver: #bdbdbd;
     --amber: #e87722;        /* primary action — Hoodlanthropy brand */
     --spark: #ffb829;        /* warm highlight */
@@ -37,6 +37,9 @@
   }
 
   .wrap { max-width: var(--max); margin: 0 auto; padding: 0 36px; }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
   ::selection { background: var(--amber); color: var(--void); }
 
@@ -111,33 +114,47 @@
   }
   .display {
     font-size: clamp(52px, 8.6vw, 113px);
-    font-weight: 400;
     line-height: 1.05;
     letter-spacing: -0.04em;
     text-wrap: balance;
   }
   .h-lg {
     font-size: clamp(44px, 6vw, 78px);
-    font-weight: 400;
     line-height: 1.1;
     letter-spacing: -0.04em;
     text-wrap: balance;
   }
   .h-sm {
     font-size: clamp(30px, 3.2vw, 42px);
-    font-weight: 400;
     line-height: 1.2;
     letter-spacing: -1.68px;
     text-wrap: balance;
   }
+  /* sculpted headlines: lit gradient (same upper-left light as the ball sprites)
+     + block extrude + contact shadow + faint constellation glow.
+     drop-shadow, not text-shadow — text-shadow doesn't compose with clipped text. */
+  .display, .h-lg, .h-sm {
+    font-family: 'Anton', 'Arial Narrow', sans-serif;
+    font-weight: 400;   /* Anton ships one weight; asking for more = smeared synthetic bold */
+    letter-spacing: 0.01em;
+    background: linear-gradient(168deg, #ffffff 0%, #eae4d6 45%, #948c7c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter:
+      drop-shadow(0 0.016em 0 rgba(56, 50, 42, 0.95))
+      drop-shadow(0 0.016em 0 rgba(26, 23, 19, 0.9))
+      drop-shadow(0 0.03em 0.08em rgba(0, 0, 0, 0.55))
+      drop-shadow(0 0 0.32em rgba(232, 119, 34, 0.16));
+  }
   .body-copy {
-    font-weight: 200;
+    font-weight: 400;
     font-size: 18px;
-    line-height: 1.5;
-    color: var(--silver);
+    line-height: 1.62;
+    color: #d6d2c8;
     max-width: 520px;
   }
-  .body-copy strong { font-weight: 400; color: var(--bone); }
+  .body-copy strong { font-weight: 600; color: var(--bone); }
   .em-spark { color: var(--spark); }
   .em-court { color: var(--court); }
 
@@ -211,13 +228,13 @@
   .pillar-list { display: flex; flex-direction: column; gap: 30px; }
   .pillar { display: grid; grid-template-columns: 60px 1fr; gap: 18px; align-items: baseline; }
   .pillar .n {
-    font-size: 27px;
-    font-weight: 400;
+    font-size: 30px;
+    font-weight: 600;
     color: var(--court);
     font-variant-numeric: tabular-nums;
   }
-  .pillar .t { font-size: 24px; font-weight: 400; letter-spacing: -0.48px; line-height: 1.25; }
-  .pillar .t span { display: block; font-size: 14px; font-weight: 200; color: var(--ash); margin-top: 6px; letter-spacing: 0; line-height: 1.5; max-width: 420px; }
+  .pillar .t { font-size: 28px; font-weight: 600; letter-spacing: -0.3px; line-height: 1.25; }
+  .pillar .t span { display: block; font-size: 15px; font-weight: 400; color: var(--silver); margin-top: 6px; letter-spacing: 0; line-height: 1.5; max-width: 460px; }
   .pillar-cta {
     display: inline-block;
     margin-top: 48px;
@@ -249,8 +266,8 @@
   .tier:nth-child(2) .tag { color: var(--court); }
   .tier:nth-child(3) .tag { color: var(--sky); }
   .tier:nth-child(4) .tag { color: var(--rose); }
-  .tier h3 { font-size: 27px; font-weight: 400; line-height: 1.15; letter-spacing: -0.48px; margin-bottom: 6px; }
-  .tier p { font-size: 15px; font-weight: 200; color: var(--ash); max-width: 440px; }
+  .tier h3 { font-family: 'Anton', 'Arial Narrow', sans-serif; font-size: 27px; font-weight: 400; line-height: 1.15; letter-spacing: 0.3px; margin-bottom: 6px; }
+  .tier p { font-size: 16px; font-weight: 400; color: var(--silver); max-width: 440px; }
   .tier .price {
     font-size: 24px;
     font-weight: 400;
@@ -267,6 +284,47 @@
     text-transform: uppercase;
     margin-top: 3px;
   }
+  .tier .deliv {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--ash);
+    letter-spacing: 0.35px;
+    text-transform: uppercase;
+    text-align: right;
+    display: grid;
+    gap: 8px;
+  }
+  .tier .deliv strong { font-weight: 600; color: var(--silver); }
+
+  /* ---------- INTAKE ---------- */
+  .intake-form { max-width: 680px; margin-top: 60px; display: grid; gap: 44px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; }
+  .field { display: grid; gap: 10px; }
+  .field label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.35px;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+  .field input, .field select, .field textarea {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #2e2e2e;
+    border-radius: 0;
+    color: var(--bone);
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: 400;
+    padding: 8px 0;
+  }
+  .field select { background: var(--void); }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: none;
+    border-bottom-color: var(--amber);
+  }
+  .field textarea { resize: vertical; min-height: 96px; }
+  .form-note { font-size: 13px; font-weight: 400; color: var(--ash); max-width: 300px; }
 
   /* ---------- FOUNDER ---------- */
   .founder-carousel { width: 100%; max-width: 420px; }
@@ -401,6 +459,8 @@
     .split.rev > .split-side { order: 2; }
     .tier { grid-template-columns: 1fr; gap: 8px; padding: 30px 0; }
     .tier .price { text-align: left; margin-top: 6px; }
+    .tier .deliv { text-align: left; margin-top: 6px; }
+    .form-row { grid-template-columns: 1fr; }
     .nav-links a:not(.pill) { display: none; }
     section { padding-top: 96px; }
   }
@@ -430,7 +490,7 @@
       <a href="#method">Method</a>
       <a href="#engagements">Engagements</a>
       <a href="#founder">Founder</a>
-      <a class="pill" href="mailto:medinad1001@gmail.com?subject=Intro%20call">Book a Free Call</a>
+      <a class="pill" href="#intake">Book a Free Call</a>
     </div>
   </nav>
 
@@ -441,7 +501,7 @@
       <h1 class="display">You've got the platform. We've got the playbook.</h1>
       <p class="body-copy">We help athletes, owners, foundations &amp; teams move money well — with the discipline of <strong>major-donor philanthropy</strong> and a vetted network of <strong>100+ nonprofits</strong> doing the work that matters.</p>
       <div class="hero-cta">
-        <a class="pill" href="mailto:medinad1001@gmail.com?subject=Intro%20call">Book a Free Call</a>
+        <a class="pill" href="#intake">Book a Free Call</a>
         <span class="ghost">20 minutes · no pitch · no obligation</span>
       </div>
     </div>
@@ -535,7 +595,7 @@
 
   <!-- METHOD -->
   <section id="method">
-    <div class="split rev">
+    <div class="split">
       <div class="split-copy">
         <span class="label">Methodology</span>
         <h2 class="h-lg">The <span class="em-court">7 Pillars</span>.</h2>
@@ -551,7 +611,7 @@
           <div class="pillar"><span class="n">06</span><div class="t">Creative Reporting<span>Impact you can show a locker room, a boardroom, or a journalist — proof, not press releases.</span></div></div>
           <div class="pillar"><span class="n">07</span><div class="t">Roadmap Creation<span>You leave with a year-one plan any operator could run. Most clients keep us in the seat instead.</span></div></div>
         </div>
-        <a class="pillar-cta" href="mailto:medinad1001@gmail.com?subject=Intro%20call">Every pillar is a conversation we've had a hundred times. Have yours — 20 minutes, free &rarr;</a>
+        <a class="pillar-cta" href="#intake">Every pillar is a conversation we've had a hundred times. Have yours — 20 minutes, free &rarr;</a>
       </div>
     </div>
   </section>
@@ -565,43 +625,145 @@
         <span class="tag">Tier I — Wedge</span>
         <div>
           <h3>Cause Matching &amp; Concierge Giving</h3>
-          <p>Values discovery, vetted shortlists, due diligence, warm intros to executive directors.</p>
+          <p>For the athlete or entertainer who knows they want to give — but not yet where. We start with a structured values-discovery session: what you've lived, what you'd fund if nobody was watching. Then we map the field the way MSF taught us — who does the work, what's proven, what's noise — and hand you a vetted shortlist with full due-diligence dossiers. When you're ready, we make the warm introductions to the executive directors themselves. You walk into every meeting already knowing the answer.</p>
         </div>
-        <div class="price">$15K–$40K<span>per engagement</span></div>
+        <div class="deliv"><strong>Includes</strong><span>Values discovery</span><span>Field mapping</span><span>Due-diligence dossiers</span><span>Warm introductions</span></div>
       </div>
       <div class="tier">
         <span class="tag">Tier II — Build</span>
         <div>
           <h3>Foundation Design &amp; Launch</h3>
-          <p>Full 7-pillar buildout. Mission, governance, programs, year-one strategy.</p>
+          <p>The full Catalyst Playbook&trade; buildout, from blank page to operating foundation. Mission and theory of change. Board and governance design. Program architecture, compliance scaffolding, and a year-one grantmaking strategy your family and your advisors can actually run. Built once, built right — so the foundation outlives the contract that funded it.</p>
         </div>
-        <div class="price">$75K–$150K<span>per project</span></div>
+        <div class="deliv"><strong>Includes</strong><span>7-pillar buildout</span><span>Governance design</span><span>Program architecture</span><span>Year-one strategy</span></div>
       </div>
       <div class="tier">
         <span class="tag">Tier III — Recurring</span>
         <div>
           <h3>Outsourced Philanthropic Office</h3>
-          <p>Ongoing advisory. Grant review, impact reporting, inbound vetting.</p>
+          <p>We become your philanthropy department. Every inbound ask is vetted before it reaches you. Every grant is reviewed, monitored, and reported in language your accountant and your grandmother both understand. Quarterly strategy sessions keep the portfolio honest as your platform grows. For principals whose giving has outgrown their inbox.</p>
         </div>
-        <div class="price">$10K–$25K<span>monthly retainer</span></div>
+        <div class="deliv"><strong>Includes</strong><span>Inbound vetting</span><span>Grant monitoring</span><span>Impact reporting</span><span>Quarterly strategy</span></div>
       </div>
       <div class="tier">
         <span class="tag">Tier IV — Enterprise</span>
         <div>
           <h3>Team &amp; League Engagements</h3>
-          <p>Catalyst Playbook&trade; for team foundations &amp; CSR departments.</p>
+          <p>The Catalyst Playbook&trade; at institutional scale — team foundations, league CSR departments, player-development programs. We audit what exists, train the staff who stay, and design community programs built to survive roster turnover. Impact the front office can defend and the city can actually feel.</p>
         </div>
-        <div class="price">$50K–$200K<span>per engagement</span></div>
+        <div class="deliv"><strong>Includes</strong><span>Foundation audits</span><span>Staff training</span><span>Program design</span><span>League reporting</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTAKE -->
+  <section id="intake">
+    <span class="label">Start the Conversation</span>
+    <h2 class="h-lg" style="margin-bottom:30px">I care, <em>because you care.</em></h2>
+    <p class="body-copy">If you have a platform and the will to use it well, we should speak. Twenty minutes, private, no deck — tell us who you are and what you're weighing, and we'll come to the call already knowing the field.</p>
+    <form class="intake-form" id="intakeForm">
+      <div class="form-row">
+        <div class="field">
+          <label for="if-name">Name</label>
+          <input id="if-name" type="text" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="if-role">I am a&hellip;</label>
+          <select id="if-role">
+            <option>Athlete / Entertainer</option>
+            <option>Agent / Manager</option>
+            <option>Family office / Advisor</option>
+            <option>Team / League executive</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="if-email">Email</label>
+          <input id="if-email" type="email" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="if-interest">I'm exploring&hellip;</label>
+          <select id="if-interest">
+            <option>Where to give — cause matching</option>
+            <option>Starting a foundation</option>
+            <option>Ongoing management of my giving</option>
+            <option>A team or league program</option>
+            <option>Not sure yet</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="if-msg">What's on your mind?</label>
+        <textarea id="if-msg" placeholder="Optional — anything you want us to know before the call."></textarea>
+      </div>
+      <div class="hero-cta">
+        <button class="pill" type="submit">Request My Call</button>
+        <span class="form-note">Opens in your own email app — nothing is stored, private, zero obligation.</span>
+      </div>
+    </form>
+  </section>
+  <script>
+  document.getElementById('intakeForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = function (id) { return document.getElementById(id).value; };
+    var body = 'Name: ' + v('if-name') + '\nRole: ' + v('if-role') + '\nEmail: ' + v('if-email')
+      + '\nExploring: ' + v('if-interest') + '\n\n' + v('if-msg');
+    location.href = 'mailto:medinad1001@gmail.com?subject='
+      + encodeURIComponent('Intro call — ' + v('if-name'))
+      + '&body=' + encodeURIComponent(body);
+  });
+  </script>
+
+  <!-- INVESTMENT -->
+  <section id="investment">
+    <span class="label">Investment</span>
+    <h2 class="h-lg" style="margin-bottom:30px">What it costs, and why.</h2>
+    <p class="body-copy">We price on scope — never on the size of your giving. Percentage-of-gift fees punish generosity: the more you give, the more you'd owe your advisor. We don't use them. A flat engagement means every additional dollar of your philanthropy is philanthropy.</p>
+    <p class="body-copy" style="margin-top:20px">Ranges, not price tags, because no two situations carry the same weight — a first foundation with one funder is not a league program across nine cities. Where you land is set in the scoping call and fixed in writing before any work begins. No hourly meters, no surprise invoices.</p>
+    <div class="tiers" style="margin-top:60px">
+      <div class="tier">
+        <span class="tag">Tier I — Wedge</span>
+        <div>
+          <h3>Cause Matching &amp; Concierge Giving</h3>
+          <p>Scoped by the breadth of the search. One cause area with a defined shortlist sits low in the range; a full-field national scan with site visits sits high.</p>
+        </div>
+        <div class="price">$15K&ndash;$40K<span>per engagement</span></div>
+      </div>
+      <div class="tier">
+        <span class="tag">Tier II — Build</span>
+        <div>
+          <h3>Foundation Design &amp; Launch</h3>
+          <p>Scoped by what exists when we arrive. A clean-sheet build sits low; untangling an existing entity, multi-family governance, or a compressed launch timeline sits high.</p>
+        </div>
+        <div class="price">$75K&ndash;$150K<span>per project</span></div>
+      </div>
+      <div class="tier">
+        <span class="tag">Tier III — Recurring</span>
+        <div>
+          <h3>Outsourced Philanthropic Office</h3>
+          <p>Scoped by volume. The retainer scales with grant count, inbound flow, and reporting cadence — reviewed together every quarter, adjusted in either direction.</p>
+        </div>
+        <div class="price">$10K&ndash;$25K<span>monthly retainer</span></div>
+      </div>
+      <div class="tier">
+        <span class="tag">Tier IV — Enterprise</span>
+        <div>
+          <h3>Team &amp; League Engagements</h3>
+          <p>Scoped by footprint. A single-team foundation audit sits low; multi-market programs with staff training and league-level reporting sit high.</p>
+        </div>
+        <div class="price">$50K&ndash;$200K<span>per engagement</span></div>
       </div>
     </div>
   </section>
 
   <!-- CTA -->
   <section class="cta-final" id="heartAnchor">
-    <h2 class="display">I care, <em>because you care.</em></h2>
-    <p class="body-copy">If you have a platform and the will to use it well — and want your support to move the needle — we should speak. Discovery calls are private and complimentary.</p>
+    <h2 class="display">Ready when you are.</h2>
+    <p class="body-copy">Discovery calls are private and complimentary.</p>
     <div class="hero-cta">
-      <a class="pill" href="mailto:medinad1001@gmail.com?subject=Intro%20call">Book a Free Call</a>
+      <a class="pill" href="#intake">Book a Free Call</a>
       <a class="email" href="mailto:medinad1001@gmail.com">medinad1001@gmail.com</a>
     </div>
   </section>
@@ -618,7 +780,7 @@
 (function () {
   var canvas = document.getElementById('constellation');
   var ctx = canvas.getContext('2d');
-  var heartAnchor = document.getElementById('heartAnchor');
+  var heartAnchor = document.getElementById('intake');
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var COLORS = ['#e87722', '#ffb829', '#35a87a', '#4e87b8', '#c14654', '#f0955a', '#f5efe6'];
   var DPR = Math.min(devicePixelRatio || 1, 2);
@@ -654,12 +816,16 @@
     for (var i = 0; i < N; i++) {
       var b = BRAIN_PTS[i], h = heartSample();
       var j1 = (Math.random() - 0.5) * 0.9, j2 = (Math.random() - 0.5) * 0.9;
+      // brightness-biased mix: bright ridges → baseballs/tennis, mid → basketballs, dark folds → footballs
+      var r = Math.random();
+      var shp = b[2] > 0.7 ? (r < 0.65 ? 0 : 1) : b[2] > 0.45 ? (r < 0.55 ? 3 : 1) : (r < 0.6 ? 2 : 3);
       particles.push({
         bx: b[0], by: b[1], bk: b[2],        // brain coords + shading brightness
         hx: h.x + j1, hy: h.y + j2,          // heart-space coords
         sx: Math.random() * W,               // scattered viewport coords
         sy: Math.random() * H,
-        s: (1.1 + Math.random() * 2.4) * DPR,
+        s: (3.0 + Math.random() * 4.0) * DPR,
+        shape: shp,                          // 0 baseball, 1 tennis, 2 football, 3 basketball
         c: COLORS[b[3]],
         a: 0.25 + Math.random() * 0.75,
         rot: Math.random() * Math.PI * 2,
@@ -673,25 +839,107 @@
   function ease(t) { return t < 0 ? 0 : t > 1 ? 1 : t * t * (3 - 2 * t); }
   function lerp(a, b, t) { return a + (b - a) * t; }
 
+  // pre-rendered 3D sprites: each ball drawn once with a radial-gradient sphere shade +
+  // specular highlight, then stamped 6k times/frame via drawImage (cheaper than stroking paths)
+  var SPR_R = 28, SPRITES = [];
+  (function () {
+    var cols = [
+      ['#fffdf6', '#efe6d2', '#a99c82', '#d24a43'],   // baseball:  highlight, body, shadow, seam
+      ['#eefb9a', '#c8e84a', '#748f1e', '#f5efe6'],   // tennis
+      ['#b06a33', '#8a4b20', '#3f2009', '#f5efe6'],   // football
+      ['#f9a35e', '#e87722', '#8a3d0a', '#2a1608']    // basketball
+    ];
+    for (var sh = 0; sh < 4; sh++) {
+      var R = SPR_R, cv = document.createElement('canvas');
+      cv.width = sh === 2 ? Math.ceil(R * 2.8) : Math.ceil(R * 2.2);
+      cv.height = Math.ceil(R * 2.2);
+      var g = cv.getContext('2d'), c = cols[sh];
+      g.translate(cv.width / 2, cv.height / 2);
+      function body() {
+        g.beginPath();
+        if (sh === 2) {
+          g.moveTo(-R * 1.35, 0);
+          g.quadraticCurveTo(0, -R * 1.5, R * 1.35, 0);
+          g.quadraticCurveTo(0, R * 1.5, -R * 1.35, 0);
+        } else {
+          g.arc(0, 0, R, 0, 6.2832);
+        }
+      }
+      var grad = g.createRadialGradient(-R * 0.42, -R * 0.46, R * 0.08, 0, 0, R * 1.3);
+      grad.addColorStop(0, c[0]);
+      grad.addColorStop(0.55, c[1]);
+      grad.addColorStop(1, c[2]);
+      body();
+      g.fillStyle = grad;
+      g.fill();
+      g.strokeStyle = c[3];
+      g.lineWidth = R * 0.09;
+      g.beginPath();
+      if (sh === 0) {               // baseball: two opposing seam arcs
+        g.moveTo(-R * 0.55, -R * 0.75);
+        g.quadraticCurveTo(-R * 0.05, 0, -R * 0.55, R * 0.75);
+        g.moveTo(R * 0.55, -R * 0.75);
+        g.quadraticCurveTo(R * 0.05, 0, R * 0.55, R * 0.75);
+      } else if (sh === 1) {        // tennis: S-curve seam
+        g.moveTo(0, -R * 0.98);
+        g.quadraticCurveTo(R * 0.9, -R * 0.45, 0, 0);
+        g.quadraticCurveTo(-R * 0.9, R * 0.45, 0, R * 0.98);
+      } else if (sh === 2) {        // football: lace line + cross stitches
+        g.moveTo(-R * 0.5, 0);
+        g.lineTo(R * 0.5, 0);
+        g.moveTo(-R * 0.25, -R * 0.22);
+        g.lineTo(-R * 0.25, R * 0.22);
+        g.moveTo(0, -R * 0.22);
+        g.lineTo(0, R * 0.22);
+        g.moveTo(R * 0.25, -R * 0.22);
+        g.lineTo(R * 0.25, R * 0.22);
+      } else {                      // basketball: cross seams + curved side seams
+        g.moveTo(0, -R * 0.98);
+        g.lineTo(0, R * 0.98);
+        g.moveTo(-R * 0.98, 0);
+        g.lineTo(R * 0.98, 0);
+        g.moveTo(-R * 0.4, -R * 0.9);
+        g.quadraticCurveTo(-R * 0.98, 0, -R * 0.4, R * 0.9);
+        g.moveTo(R * 0.4, -R * 0.9);
+        g.quadraticCurveTo(R * 0.98, 0, R * 0.4, R * 0.9);
+      }
+      g.stroke();
+      // clip seams to the body so nothing pokes past the silhouette, then a soft specular dot
+      g.globalCompositeOperation = 'destination-in';
+      body();
+      g.fill();
+      g.globalCompositeOperation = 'source-over';
+      g.globalAlpha = 0.5;
+      g.beginPath();
+      g.arc(-R * 0.38, -R * 0.42, R * 0.16, 0, 6.2832);
+      g.fillStyle = '#ffffff';
+      g.fill();
+      SPRITES.push(cv);
+    }
+  })();
+
   function tri(x, y, p, tw, alpha, wob) {
     var o = p.orb * wob;
     ctx.save();
     ctx.translate(x + Math.cos(tw * p.sp + p.ph) * o, y + Math.sin(tw * p.sp * 0.8 + p.ph) * o);
     ctx.rotate(p.rot + tw * 0.15 * p.sp);
     ctx.globalAlpha = alpha * p.a * (0.6 + 0.4 * Math.sin(tw * p.sp * 1.7 + p.ph));
-    ctx.strokeStyle = p.c;
-    ctx.lineWidth = Math.max(1, DPR);
-    ctx.beginPath();
-    ctx.moveTo(0, -p.s);
-    ctx.lineTo(p.s * 0.87, p.s * 0.5);
-    ctx.lineTo(-p.s * 0.87, p.s * 0.5);
-    ctx.closePath();
-    ctx.stroke();
+    var img = SPRITES[p.shape], sc = p.s / SPR_R;
+    ctx.drawImage(img, -img.width / 2 * sc, -img.height / 2 * sc, img.width * sc, img.height * sc);
     ctx.restore();
   }
 
-  // choreography: brain right (hero) → glides left & grows → disperses → heart (CTA)
-  var PM = 0.16, PD1 = 0.30, PD2 = 0.50, PH1 = 0.62, PH2 = 0.97;
+  // choreography: brain right (hero) → glides left & grows → disperses → heart (intake form)
+  // dispersal starts early and overlaps the glide so the brain melts away mid-move
+  // instead of finishing the slide and then popping; PH1/PH2 recomputed in start()
+  // so the heart completes as the intake section centers in view
+  var PM = 0.34, PD1 = 0.12, PD2 = 0.55, PH1 = 0.62, PH2 = 0.97;
+  function computePhases() {
+    var max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+    var r = heartAnchor.getBoundingClientRect();
+    PH2 = Math.min(0.97, Math.max(PD2 + 0.1, (r.top + scrollY + r.height * 0.42 - innerHeight * 0.55) / max));
+    PH1 = Math.max(PD2 + 0.05, PH2 - 0.3);
+  }
 
   function draw(ms) {
     ctx.clearRect(0, 0, W, H);
@@ -741,6 +989,7 @@
   function start() {
     cancelAnimationFrame(raf);
     build();
+    computePhases();
     if (reduced) { draw(1000); } else { raf = requestAnimationFrame(draw); }
   }
 
