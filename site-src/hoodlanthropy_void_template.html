@@ -265,9 +265,9 @@
   .seamstack { display: grid; }
   .seamstack > * { grid-area: 1 / 1; display: block; width: 100%; }
   .poster .wrap { z-index: 2; }                      /* panel copy rides above the raised city */
-  /* DC raised into the hero; -39.5vw seats the roofline horizon just above the
-     Book-a-Call button, dome riding behind the copy. (Strip is 56.25vw tall.) */
-  header.poster .seamstack { margin-top: -37.25vw; }
+  /* DC raised into the hero; -27vw seats the Washington Monument's tip just under
+     the Book-a-Call button. (Strip is 56.25vw tall; tip sits 37% down the strip.) */
+  header.poster .seamstack { margin-top: -23vw; }
   .seamstack .sky { height: 100%; }
   .seamstack .city { height: auto; position: relative; z-index: 1; }
   .seamstack .tearcap { height: clamp(24px, 3vw, 44px); align-self: start; position: relative; z-index: 2; }
@@ -561,8 +561,15 @@
 
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 900px) {
-    .hero { grid-template-columns: 1fr; min-height: 0; }
-    .hero-viz { min-height: 380px; order: -1; }
+    .hero { grid-template-columns: 1fr; min-height: 0; gap: 0; padding-bottom: 0; }
+    /* copy first, then the brain seated on the DC skyline (matches the desktop poster);
+       the full-screen strip holds the whole brain — the seat is just a beat of dark panel */
+    .hero-viz { min-height: 26vw; }
+    nav .pill { white-space: nowrap; padding: 11px 16px; font-size: 13px; }
+    /* blown-up skylines: crop the photos tall, let them overflow sideways;
+       the draw loop pans them horizontally as the page scrolls */
+    .seamstack { overflow: hidden; height: 100vh; }
+    .seamstack .city { width: auto; height: 120vh; max-width: none; will-change: transform; }
     .numbers { grid-template-columns: repeat(2, 1fr); gap: 48px 36px; }
     .split, .split.rev { grid-template-columns: 1fr; gap: 48px; }
     .split.rev > .split-copy { order: 1; }
@@ -624,7 +631,7 @@
 </div>
 <!-- DC: duotone photo strip (Capitol + Washington Monument under a burnt storm sky),
      dark panel tears open onto it. The .city layer rides above the ball canvas. -->
-<div class="seamstack">
+<div class="seamstack" id="dcStack">
   <svg class="sky" viewBox="0 0 1200 675" preserveAspectRatio="none" aria-hidden="true">
     <defs>
       <linearGradient id="dcGlow" x1="0" y1="0" x2="0" y2="1">
@@ -636,7 +643,7 @@
     </defs>
     <rect width="1200" height="675" fill="url(#dcGlow)"/>
   </svg>
-  <img class="city" src="__MEDIA_SKY_DC__" alt="">
+  <img class="city" id="dcSeam" src="__MEDIA_SKY_DC__" alt="">
 </div>
 </header>
 
@@ -798,7 +805,7 @@
 <!-- NYC: the orange page tears open onto a duotone photo cutout of Lower Manhattan.
      The glow sky sits under the ball canvas; the city rides above it, so the heart
      sets behind the towers with One WTC piercing through. -->
-<div class="seamstack">
+<div class="seamstack" id="nyStack">
   <svg class="sky" viewBox="0 0 1500 864" preserveAspectRatio="none" aria-hidden="true">
     <defs>
       <linearGradient id="nyGlow" x1="0" y1="0" x2="0" y2="1">
@@ -946,6 +953,9 @@
   var canvas = document.getElementById('constellation');
   var ctx = canvas.getContext('2d');
   var heartAnchor = document.getElementById('nySeam');  // the NYC skyline strip — the heart sets behind the city
+  var dcSeam = document.getElementById('dcSeam');       // the DC skyline strip — the brain seats here on phones
+  var dcStack = document.getElementById('dcStack');     // strip containers: stable rects while the photos pan
+  var nyStack = document.getElementById('nyStack');
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var COLORS = ['#e87722', '#ffb829', '#35a87a', '#4e87b8', '#c14654', '#f0955a', '#f5efe6'];
   var DPR = Math.min(devicePixelRatio || 1, 2);
@@ -1132,6 +1142,21 @@
     PH1 = Math.max(PD2 + 0.05, PH2 - 0.3);
   }
 
+  // horizontal parallax for the blown-up mobile skylines: the photo glides a bounded
+  // sweep around its landmark (fx = landmark fraction in the image, sx = where it
+  // sits on screen when the strip is centered), so the dome / One WTC stays the shot
+  function pan(img, stack, dir, fx, sx) {
+    var over = img.offsetWidth - innerWidth;
+    if (over <= 0) return;
+    var r = stack.getBoundingClientRect();
+    var t = Math.min(1, Math.max(0, (innerHeight - r.top) / (innerHeight + r.height)));
+    var anchor = Math.min(over, Math.max(0, fx * img.offsetWidth - sx * innerWidth));
+    var x = Math.min(over, Math.max(0, anchor + dir * (t - 0.5) * innerWidth * 0.5));
+    // vertical: the photo lags the scroll, drifting down through its 20vh headroom
+    var y = (1 - t) * (img.offsetHeight - r.height);
+    img.style.transform = 'translate(' + (-x).toFixed(1) + 'px,' + (-y).toFixed(1) + 'px)';
+  }
+
   function draw(ms) {
     ctx.clearRect(0, 0, W, H);
     var tw = ms / 1000;
@@ -1147,8 +1172,15 @@
     var portrait = W < H;
     var amb = portrait ? 0.18 : 0.3;   // dispersed-field alpha — fainter on phones so text stays clean
     var sA = (portrait ? Math.min(W * 0.95, H * 0.45) : Math.min(W * 0.42, H * 0.82)) / 33;
-    var axA = portrait ? W * 0.5 : W * 0.62;   // eased toward center
-    var ayA = portrait ? H * 0.36 : H * 0.52;   // seated below the "You've got" headline top
+    var axA = W * 0.70;
+    var ayA = H * 0.52;   // seated below the "You've got" headline top
+    if (portrait) {       // phones: seat the brain on the DC skyline, dome occluding its lower edge
+      var dr = dcStack.getBoundingClientRect();
+      axA = W * 0.5;
+      ayA = (dr.top + dr.height * 0.38) * DPR - sA * 16.5;   // bottom at 38% of the strip: the dome's crown pierces the lower lobes, ask.png-style
+      pan(dcSeam, dcStack, 1, 0.73, 0.68);        // Capitol dome into the brain's lower-right notch
+      pan(heartAnchor, nyStack, -1, 0.44, 0.50);  // One WTC centered through the heart
+    }
     var bcx = lerp(axA, W * 0.16, tMove);
     var bcy = lerp(ayA, H * 0.52, tMove);
     var bsc = lerp(sA, sA * 1.9, tMove);
@@ -1156,9 +1188,9 @@
 
     // the heart sets like a sun behind Lower Manhattan: top lobes just below the
     // tip of One WTC's spire, body behind the towers
-    var hr = heartAnchor.getBoundingClientRect();
+    var hr = (portrait ? nyStack : heartAnchor).getBoundingClientRect();
     var hsc = hr.height * 0.68 / 30 * DPR;
-    var hcx = (hr.left + hr.width * 0.70) * DPR;   // right of the copy, fully inside the frame
+    var hcx = (hr.left + hr.width * (portrait ? 0.5 : 0.70)) * DPR;   // right of the copy, fully inside the frame
     var hcy = (hr.top + hr.height * 0.40) * DPR;
 
     for (var i = 0; i < particles.length; i++) {
@@ -1184,6 +1216,7 @@
     cancelAnimationFrame(raf);
     build();
     computePhases();
+    if (W >= H) { dcSeam.style.transform = heartAnchor.style.transform = ''; }  // undo pan on rotate-out
     if (reduced) { draw(1000); } else { raf = requestAnimationFrame(draw); }
   }
 
