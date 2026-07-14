@@ -28,8 +28,8 @@
   body {
     background: var(--void);
     color: var(--bone);
-    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    font-weight: 200;
+    font-family: 'Schibsted Grotesk', 'Inter', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-weight: 400;
     font-size: 18px;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
@@ -146,10 +146,19 @@
   }
   .body-copy {
     font-weight: 400;
-    font-size: 18px;
-    line-height: 1.62;
-    color: #d6d2c8;
+    font-size: 19px;
+    line-height: 1.64;
+    color: #e9e5da;
     max-width: 520px;
+  }
+  /* reading text: raised emboss + constellation glow (light top edge, dark bevel, amber halo) */
+  .body-copy, .tier p, .pillar .t span, .tier .deliv, .form-note {
+    text-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.09),
+      0 -1px 0 rgba(0, 0, 0, 0.85),
+      0 0 14px rgba(232, 119, 34, 0.30),
+      0 0 4px rgba(255, 184, 41, 0.18),
+      0 3px 8px rgba(0, 0, 0, 0.7);
   }
   .body-copy strong { font-weight: 600; color: var(--bone); }
   .em-spark { color: var(--spark); }
@@ -231,7 +240,7 @@
     font-variant-numeric: tabular-nums;
   }
   .pillar .t { font-size: 28px; font-weight: 600; letter-spacing: -0.3px; line-height: 1.25; }
-  .pillar .t span { display: block; font-size: 15px; font-weight: 400; color: var(--silver); margin-top: 6px; letter-spacing: 0; line-height: 1.5; max-width: 460px; }
+  .pillar .t span { display: block; font-size: 16px; font-weight: 400; color: #ddd8cc; margin-top: 6px; letter-spacing: 0; line-height: 1.55; max-width: 460px; }
   .pillar-cta {
     display: inline-block;
     margin-top: 48px;
@@ -264,7 +273,7 @@
   .tier:nth-child(3) .tag { color: var(--sky); }
   .tier:nth-child(4) .tag { color: var(--rose); }
   .tier h3 { font-family: 'Anton', 'Arial Narrow', sans-serif; font-size: 27px; font-weight: 400; line-height: 1.15; letter-spacing: 0.3px; margin-bottom: 6px; }
-  .tier p { font-size: 16px; font-weight: 400; color: var(--silver); max-width: 440px; }
+  .tier p { font-size: 17px; font-weight: 400; color: #e2ddd2; max-width: 460px; }
   .tier .price {
     font-size: 24px;
     font-weight: 400;
