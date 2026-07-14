@@ -7,16 +7,18 @@
 <!--FONTFACE-->
 <style>
   :root {
-    --void: #000000;
-    --bone: #ffffff;
-    --ash: #a8a8a8;
-    --silver: #bdbdbd;
-    --amber: #e87722;        /* primary action — Hoodlanthropy brand */
-    --spark: #ffb829;        /* warm highlight */
-    --court: #35a87a;        /* court green lifted for black canvas */
-    --court-deep: #1f5e3f;
-    --sky: #4e87b8;
-    --rose: #c14654;
+    /* option 5 "Blood orange" — golden-angle palette: court=+137.5deg, citron=+3, sky=+4, rose=+5 turns */
+    --void: #e04f1f;         /* inverted 2026-07: blood orange IS the page now */
+    --bone: #0d0503;         /* primary ink (poster black, warm whisper) */
+    --ash: #663424;          /* secondary text — dark umber (also the football body) */
+    --silver: #50281b;
+    --amber: #170905;        /* primary action — dark ink; pill text picks up --void orange */
+    --spark: #ffedd6;        /* warm highlight — cream on orange */
+    --court: #206042;        /* court green, +1 golden turn */
+    --court-deep: #143e2b;
+    --sky: #27506d;          /* +4 golden turns */
+    --rose: #7c223c;         /* +5 golden turns */
+    --citron: #6f7a1f;       /* +3 golden turns — tier tags / accents */
     --max: 1280px;
   }
 
@@ -94,23 +96,27 @@
     border-radius: 24px;
     padding: 14px 24px;
     cursor: pointer;
-    transition: background 0.2s, transform 0.2s;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 6px 22px rgba(20, 62, 43, 0.5);      /* court glow */
   }
-  .pill:hover { background: var(--spark); transform: translateY(-1px); }
+  .pill:hover { background: var(--spark); transform: translateY(-1px); box-shadow: 0 8px 26px rgba(39, 80, 109, 0.55); }  /* sky glow */
   .nav-links .pill { color: var(--void); }
 
   /* ---------- TYPE ROLES ---------- */
+  /* caption bar — the "Jalen Brunson is cooking" move: black bar, cream type */
   .label {
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.35px;
     text-transform: uppercase;
-    color: var(--court);
-    display: block;
+    color: var(--spark);
+    background: var(--bone);
+    display: inline-block;
+    padding: 7px 14px 6px;
     margin-bottom: 24px;
   }
   .display {
-    font-size: clamp(52px, 8.6vw, 113px);
+    font-size: clamp(42px, 6.8vw, 88px);
     line-height: 1.05;
     letter-spacing: -0.04em;
     text-wrap: balance;
@@ -134,31 +140,29 @@
     font-family: 'Anton', 'Arial Narrow', sans-serif;
     font-weight: 400;   /* Anton ships one weight; asking for more = smeared synthetic bold */
     letter-spacing: 0.01em;
-    background: linear-gradient(168deg, #ffffff 0%, #eae4d6 45%, #948c7c 100%);
+    background: linear-gradient(168deg, #3f1608 0%, #170905 45%, #060201 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     filter:
-      drop-shadow(0 0.016em 0 rgba(56, 50, 42, 0.95))
-      drop-shadow(0 0.016em 0 rgba(26, 23, 19, 0.9))
-      drop-shadow(0 0.03em 0.08em rgba(0, 0, 0, 0.55))
-      drop-shadow(0 0 0.32em rgba(232, 119, 34, 0.16));
+      drop-shadow(0 0.016em 0 rgba(120, 36, 8, 0.9))
+      drop-shadow(0 0.016em 0 rgba(82, 24, 4, 0.9))
+      drop-shadow(0 0.03em 0.08em rgba(74, 22, 2, 0.5))
+      drop-shadow(0 0 0.32em rgba(105, 161, 201, 0.35));  /* constellation glow gone sky */
   }
   .body-copy {
     font-weight: 400;
     font-size: 19px;
     line-height: 1.64;
-    color: #e9e5da;
+    color: #1a0c06;
     max-width: 520px;
   }
-  /* reading text: raised emboss + constellation glow (light top edge, dark bevel, amber halo) */
+  /* reading text: letterpress into the orange — light edge below, soft warm depth */
   .body-copy, .tier p, .pillar .t span, .tier .deliv, .form-note {
     text-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.09),
-      0 -1px 0 rgba(0, 0, 0, 0.85),
-      0 0 14px rgba(232, 119, 34, 0.30),
-      0 0 4px rgba(255, 184, 41, 0.18),
-      0 3px 8px rgba(0, 0, 0, 0.7);
+      0 1px 0 rgba(255, 233, 200, 0.35),
+      0 -1px 0 rgba(0, 0, 0, 0.22),
+      0 2px 6px rgba(102, 32, 7, 0.35);
   }
   .body-copy strong { font-weight: 600; color: var(--bone); }
   .em-spark { color: var(--spark); }
@@ -196,6 +200,82 @@
     pointer-events: none;
   }
   .wrap { position: relative; z-index: 1; }
+
+  /* global grade — one "LUT" over the whole page so the photo strips, dark panels
+     and orange sections hold together down the scroll: film grain + corner
+     vignette + a whisper of warm cast. Fixed, non-interactive, above everything. */
+  #grade {
+    position: fixed;
+    inset: 0;
+    z-index: 9;
+    pointer-events: none;
+    background:
+      radial-gradient(115% 92% at 50% 32%, rgba(0, 0, 0, 0) 56%, rgba(8, 6, 12, 0.3) 100%),
+      rgba(232, 90, 30, 0.045),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23g)'/%3E%3C/svg%3E");
+    background-size: auto, auto, 220px 220px;
+  }
+
+  /* ---------- POSTER PANELS (gritty northeast collage) ----------
+     full-bleed navy-black panels OUTSIDE .wrap and deliberately unpositioned:
+     they paint BELOW the fixed z-0 constellation canvas, so the balls fly
+     over the dark paper while the z-1 .wrap text stays on top. */
+  .poster {
+    background-color: #0a0e18;
+    background-image:
+      radial-gradient(rgba(245, 132, 38, 0.05) 1px, transparent 1.4px),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 7px 7px, 240px 240px;
+    color: var(--spark);
+  }
+  .poster .display, .poster .h-lg, .poster .h-sm {
+    background: linear-gradient(168deg, #ffa04d 0%, #f58426 45%, #a34a0e 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter:
+      drop-shadow(0 0.016em 0 #050301)
+      drop-shadow(0 0.016em 0 #050301)
+      drop-shadow(0 0.03em 0.08em rgba(0, 0, 0, 0.65))
+      drop-shadow(0 0 0.32em rgba(245, 132, 38, 0.4));
+  }
+  .poster .body-copy, .poster .form-note, .poster .ghost, .poster .field label {
+    color: var(--spark);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);  /* letterpress reads wrong on dark — soft drop instead */
+  }
+  .poster .body-copy strong { color: #ffa04d; }
+  .poster .label { background: #f58426; color: #0a0e18; }
+  .poster .pill { background: #f58426; color: #0a0e18; box-shadow: 0 6px 24px rgba(245, 132, 38, 0.3); }
+  .poster .pill:hover { background: #ffa04d; box-shadow: 0 8px 28px rgba(255, 160, 77, 0.45); }
+  .poster .nav-links a { color: rgba(255, 237, 214, 0.72); }
+  .poster .nav-links a:hover { color: var(--spark); }
+  .poster .nav-links .pill, .poster .nav-links .pill:hover { color: #0a0e18; }
+  .poster .logo { color: var(--spark); }
+  .poster .field input, .poster .field select, .poster .field textarea {
+    color: var(--spark);
+    border-bottom-color: rgba(255, 237, 214, 0.3);
+  }
+  .poster .field select { background: #0a0e18; }
+  .poster .field input:focus, .poster .field select:focus, .poster .field textarea:focus {
+    border-bottom-color: #f58426;
+  }
+  /* photo-collage skylines: duotone cutouts of the real cities, grid-stacked.
+     The glow .sky layer stays unpositioned so it paints BENEATH the z-0 ball canvas;
+     the .city photo is lifted to z-1 so the brain/heart morph THROUGH the city and
+     set behind the buildings. .tearcap is the dark panel tearing open on top. */
+  .seamstack { display: grid; }
+  .seamstack > * { grid-area: 1 / 1; display: block; width: 100%; }
+  .poster .wrap { z-index: 2; }                      /* panel copy rides above the raised city */
+  /* DC raised into the hero; -39.5vw seats the roofline horizon just above the
+     Book-a-Call button, dome riding behind the copy. (Strip is 56.25vw tall.) */
+  header.poster .seamstack { margin-top: -37.25vw; }
+  .seamstack .sky { height: 100%; }
+  .seamstack .city { height: auto; position: relative; z-index: 1; }
+  .seamstack .tearcap { height: clamp(24px, 3vw, 44px); align-self: start; position: relative; z-index: 2; }
+  .seam-sm { display: block; width: 100%; height: clamp(24px, 3vw, 44px); }
+  section#intake { padding: 0; }
+  /* the intake copy rides ON the NYC strip (its scrim is baked into the image);
+     -52vw leaves the torn edge and upper glow clear above the headline */
+  #intake .wrap { margin-top: -52vw; padding-bottom: 90px; }
 
   /* ---------- NUMBERS ---------- */
   .numbers {
@@ -240,7 +320,7 @@
     font-variant-numeric: tabular-nums;
   }
   .pillar .t { font-size: 28px; font-weight: 600; letter-spacing: -0.3px; line-height: 1.25; }
-  .pillar .t span { display: block; font-size: 16px; font-weight: 400; color: #ddd8cc; margin-top: 6px; letter-spacing: 0; line-height: 1.55; max-width: 460px; }
+  .pillar .t span { display: block; font-size: 16px; font-weight: 400; color: #2b1c0b; margin-top: 6px; letter-spacing: 0; line-height: 1.55; max-width: 460px; }
   .pillar-cta {
     display: inline-block;
     margin-top: 48px;
@@ -269,11 +349,12 @@
     text-transform: uppercase;
   }
   .tier:nth-child(1) .tag { color: var(--amber); }
+  .tier:nth-child(1) .tag { color: var(--citron); }
   .tier:nth-child(2) .tag { color: var(--court); }
   .tier:nth-child(3) .tag { color: var(--sky); }
   .tier:nth-child(4) .tag { color: var(--rose); }
   .tier h3 { font-family: 'Anton', 'Arial Narrow', sans-serif; font-size: 27px; font-weight: 400; line-height: 1.15; letter-spacing: 0.3px; margin-bottom: 6px; }
-  .tier p { font-size: 17px; font-weight: 400; color: #e2ddd2; max-width: 460px; }
+  .tier p { font-size: 17px; font-weight: 400; color: #2b1c0b; max-width: 460px; }
   .tier .price {
     font-size: 24px;
     font-weight: 400;
@@ -301,6 +382,29 @@
     gap: 8px;
   }
   .tier .deliv strong { font-weight: 600; color: var(--silver); }
+  /* per-block navy highlighter swipes (orange's complement) behind each piece of
+     tier copy — distressed torn-paper strips (media/swipe-*.webp: ragged edges,
+     grunge holes, baked end-fade); text flips to cream */
+  #engagements .tier .tag,
+  #engagements .tier h3,
+  #engagements .tier p {
+    background: url("media/swipe-l.webp");
+    background-size: 100% 100%;
+    padding: 10px 18px 9px 14px;
+    margin-left: -14px;
+  }
+  #engagements .tier .tag { align-self: start; filter: brightness(2.1) saturate(0.9); }
+  #engagements .tier h3 { color: var(--spark); display: inline-block; }
+  #engagements .tier p { color: #f3ddc4; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5); }
+  #engagements .tier .deliv {
+    background: url("media/swipe-r.webp");
+    background-size: 100% 100%;
+    padding: 12px 14px 12px 18px;
+    margin-right: -14px;
+    color: #d8b895;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  }
+  #engagements .tier .deliv strong { color: var(--spark); }
 
   /* ---------- INTAKE ---------- */
   .intake-form { max-width: 680px; margin-top: 60px; display: grid; gap: 44px; }
@@ -316,7 +420,7 @@
   .field input, .field select, .field textarea {
     background: transparent;
     border: none;
-    border-bottom: 1px solid #2e2e2e;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 0;
     color: var(--bone);
     font-family: inherit;
@@ -342,7 +446,7 @@
     background:
       radial-gradient(circle at 30% 25%, rgba(232,119,34,0.45), transparent 60%),
       radial-gradient(circle at 75% 80%, rgba(31,94,63,0.6), transparent 65%),
-      #0a0a0a;
+      #c05c0e;
   }
   .fc-frame .slide {
     position: absolute;
@@ -377,7 +481,7 @@
     border-radius: 50%;
     border: none;
     padding: 0;
-    background: #3a3a3a;
+    background: rgba(0, 0, 0, 0.3);
     cursor: pointer;
     transition: background 0.2s;
   }
@@ -469,14 +573,16 @@
     .form-row { grid-template-columns: 1fr; }
     .nav-links a:not(.pill) { display: none; }
     section { padding-top: 96px; }
-    #intake .intake-form { margin-top: 520px; }  /* clearing for the heart — see portrait targeting in draw() */
   }
 </style>
 </head>
 <body>
 
 <canvas id="constellation" aria-hidden="true"></canvas>
+<div id="grade" aria-hidden="true"></div>
 
+<!-- DC panel: the mind. Brain forms here over the DC skyline. -->
+<header class="poster" id="top">
 <div class="wrap">
 
   <!-- NAV -->
@@ -485,8 +591,8 @@
       <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
         <defs>
           <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#e87722"/>
-            <stop offset="1" stop-color="#1f5e3f"/>
+            <stop offset="0" stop-color="#e04f1f"/>
+            <stop offset="1" stop-color="#206042"/>
           </linearGradient>
         </defs>
         <path d="M13 1 L25 23 L1 23 Z" fill="url(#lg)"/>
@@ -502,7 +608,7 @@
   </nav>
 
   <!-- HERO -->
-  <header class="hero" id="top">
+  <div class="hero">
     <div class="hero-copy">
       <span class="label">Philanthropic advisory for sport</span>
       <h1 class="display">You've got the platform. We've got the playbook.</h1>
@@ -513,7 +619,28 @@
       </div>
     </div>
     <div class="hero-viz" id="brainAnchor" aria-hidden="true"></div>
-  </header>
+  </div>
+
+</div>
+<!-- DC: duotone photo strip (Capitol + Washington Monument under a burnt storm sky),
+     dark panel tears open onto it. The .city layer rides above the ball canvas. -->
+<div class="seamstack">
+  <svg class="sky" viewBox="0 0 1200 675" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="dcGlow" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#0a0e18"/>
+        <stop offset="0.42" stop-color="#5a2c14"/>
+        <stop offset="0.75" stop-color="#c94f1e"/>
+        <stop offset="1" stop-color="#e04f1f"/>
+      </linearGradient>
+    </defs>
+    <rect width="1200" height="675" fill="url(#dcGlow)"/>
+  </svg>
+  <img class="city" src="__MEDIA_SKY_DC__" alt="">
+</div>
+</header>
+
+<div class="wrap">
 
   <!-- NUMBERS -->
   <section aria-label="Track record">
@@ -664,7 +791,30 @@
   </section>
 
   <!-- INTAKE -->
-  <section id="intake">
+</div>
+
+<!-- NYC panel: the heart. It completes here over the New York skyline. -->
+<section id="intake" class="poster">
+<!-- NYC: the orange page tears open onto a duotone photo cutout of Lower Manhattan.
+     The glow sky sits under the ball canvas; the city rides above it, so the heart
+     sets behind the towers with One WTC piercing through. -->
+<div class="seamstack">
+  <svg class="sky" viewBox="0 0 1500 864" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="nyGlow" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#e04f1f"/>
+        <stop offset="0.3" stop-color="#c94f1e"/>
+        <stop offset="0.55" stop-color="#5a2c14"/>
+        <stop offset="0.8" stop-color="#0a0e18"/>
+      </linearGradient>
+    </defs>
+    <rect width="1500" height="864" fill="url(#nyGlow)"/>
+    <path fill="rgba(255,237,214,0.55)" d="M0,0 L1500,0 L1500,24 L1400,34 L1310,20 L1220,32 L1130,18 L1040,36 L950,22 L860,34 L770,16 L680,30 L590,20 L500,36 L400,22 L310,32 L220,18 L150,32 L60,22 L0,30 Z"/>
+    <path fill="#e04f1f" d="M0,0 L1500,0 L1500,20 L1400,30 L1310,16 L1220,28 L1130,14 L1040,32 L950,18 L860,30 L770,12 L680,26 L590,16 L500,32 L400,18 L310,28 L220,14 L150,28 L60,18 L0,26 Z"/>
+  </svg>
+  <img class="city" id="nySeam" src="__MEDIA_SKY_NYC__" alt="">
+</div>
+<div class="wrap" id="intakeWrap">
     <span class="label">Start the Conversation</span>
     <h2 class="h-lg" style="margin-bottom:30px">I care, <em>because you care.</em></h2>
     <p class="body-copy">If you have a platform and the will to use it well, we should speak. Twenty minutes, private, no deck — tell us who you are and what you're weighing, and we'll come to the call already knowing the field.</p>
@@ -710,7 +860,13 @@
         <span class="form-note">Opens in your own email app — nothing is stored, private, zero obligation.</span>
       </div>
     </form>
-  </section>
+</div>
+<!-- torn bottom edge back onto the orange page -->
+<svg class="seam-sm" viewBox="0 0 1440 40" preserveAspectRatio="none" aria-hidden="true">
+  <path fill="rgba(255,237,214,0.5)" d="M0,0 L1440,0 L1440,22 L1340,30 L1240,18 L1130,28 L1020,14 L910,26 L800,16 L690,30 L580,18 L470,28 L360,14 L250,26 L140,16 L60,24 L0,18 Z"/>
+  <path fill="#0a0e18" d="M0,0 L1440,0 L1440,18 L1340,26 L1240,14 L1130,24 L1020,10 L910,22 L800,12 L690,26 L580,14 L470,24 L360,10 L250,22 L140,12 L60,20 L0,14 Z"/>
+</svg>
+</section>
   <script>
   document.getElementById('intakeForm').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -722,6 +878,8 @@
       + '&body=' + encodeURIComponent(body);
   });
   </script>
+
+<div class="wrap">
 
   <!-- INVESTMENT -->
   <section id="investment">
@@ -787,7 +945,7 @@
 (function () {
   var canvas = document.getElementById('constellation');
   var ctx = canvas.getContext('2d');
-  var heartAnchor = document.getElementById('intake');
+  var heartAnchor = document.getElementById('nySeam');  // the NYC skyline strip — the heart sets behind the city
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var COLORS = ['#e87722', '#ffb829', '#35a87a', '#4e87b8', '#c14654', '#f0955a', '#f5efe6'];
   var DPR = Math.min(devicePixelRatio || 1, 2);
@@ -808,11 +966,30 @@
   // 22% of points trace the silhouette, colors cluster in patches, white = ridge highlights
   var BRAIN_PTS = __BRAIN_PTS__;
 
+  // radial sampling bunched balls along the vertical spine — rejection sampling
+  // against the boundary polygon gives an even fill, plus a crisp outline share
+  var HEART_POLY = [];
+  for (var hp = 0; hp < 96; hp++) HEART_POLY.push(heartPoint(hp / 96 * Math.PI * 2));
+  function inHeart(x, y) {
+    var inside = false;
+    for (var i = 0, j = HEART_POLY.length - 1; i < HEART_POLY.length; j = i++) {
+      var a = HEART_POLY[i], b = HEART_POLY[j];
+      if ((a.y > y) !== (b.y > y) && x < (b.x - a.x) * (y - a.y) / (b.y - a.y) + a.x) inside = !inside;
+    }
+    return inside;
+  }
   function heartSample() {
-    var t = Math.random() * Math.PI * 2;
-    var r = Math.pow(Math.random(), 0.45); // bias toward outline
-    var p = heartPoint(t);
-    return { x: p.x * r, y: p.y * r };
+    if (Math.random() < 0.2) {              // outline share keeps the silhouette sharp
+      var p = heartPoint(Math.random() * Math.PI * 2);
+      var k = 0.95 + Math.random() * 0.05;
+      return { x: p.x * k, y: p.y * k };
+    }
+    for (var i = 0; i < 40; i++) {
+      var x = (Math.random() * 2 - 1) * 16.3;
+      var y = -13.5 + Math.random() * 31.5;
+      if (inHeart(x, y)) return { x: x, y: y };
+    }
+    return { x: 0, y: 4 };                  // ponytail: unreachable in practice
   }
 
   function build() {
@@ -851,10 +1028,10 @@
   var SPR_R = 28, SPRITES = [];
   (function () {
     var cols = [
-      ['#fffdf6', '#efe6d2', '#a99c82', '#d24a43'],   // baseball:  highlight, body, shadow, seam
-      ['#eefb9a', '#c8e84a', '#748f1e', '#f5efe6'],   // tennis
-      ['#b06a33', '#8a4b20', '#3f2009', '#f5efe6'],   // football
-      ['#f9a35e', '#e87722', '#8a3d0a', '#2a1608']    // basketball
+      ['#fffdf6', '#efe6d2', '#a99c82', '#7c223c'],   // baseball:  white body, ROSE seams (golden +5)
+      ['#eefa99', '#d0e444', '#667218', '#fffdf6'],   // tennis:    CITRON body (golden +3), white seam
+      ['#98513a', '#663424', '#33180f', '#ffedd6'],   // football:  --ash body, cream laces
+      ['#c54216', '#972f0c', '#511805', '#0d0503']    // basketball — burnt deep, ink seams
     ];
     for (var sh = 0; sh < 4; sh++) {
       var R = SPR_R, cv = document.createElement('canvas');
@@ -916,6 +1093,13 @@
       body();
       g.fill();
       g.globalCompositeOperation = 'source-over';
+      if (sh === 3) {           // basketball: near-black rim so it separates from the orange page
+        g.beginPath();
+        g.arc(0, 0, R * 0.96, 0, 6.2832);
+        g.strokeStyle = '#0d0503';
+        g.lineWidth = R * 0.08;
+        g.stroke();
+      }
       g.globalAlpha = 0.5;
       g.beginPath();
       g.arc(-R * 0.38, -R * 0.42, R * 0.16, 0, 6.2832);
@@ -963,26 +1147,19 @@
     var portrait = W < H;
     var amb = portrait ? 0.18 : 0.3;   // dispersed-field alpha — fainter on phones so text stays clean
     var sA = (portrait ? Math.min(W * 0.95, H * 0.45) : Math.min(W * 0.42, H * 0.82)) / 33;
-    var axA = portrait ? W * 0.5 : W * 0.70;
-    var ayA = portrait ? H * 0.36 : H * 0.5;
+    var axA = portrait ? W * 0.5 : W * 0.62;   // eased toward center
+    var ayA = portrait ? H * 0.36 : H * 0.52;   // seated below the "You've got" headline top
     var bcx = lerp(axA, W * 0.16, tMove);
     var bcy = lerp(ayA, H * 0.52, tMove);
     var bsc = lerp(sA, sA * 1.9, tMove);
     var bBase = lerp(1, 0.62, tMove);  // dims as it slides beneath content
 
+    // the heart sets like a sun behind Lower Manhattan: top lobes just below the
+    // tip of One WTC's spire, body behind the towers
     var hr = heartAnchor.getBoundingClientRect();
-    var hcx, hcy, hsc;
-    if (portrait) {
-      // centered in the mobile-only clearing above the form (see #intake margin in the 900px media query)
-      var fr = document.getElementById('intakeForm').getBoundingClientRect();
-      hcx = (hr.left + hr.width * 0.5) * DPR;
-      hcy = (fr.top - 270) * DPR;
-      hsc = Math.min(hr.width * 0.9, 480) * DPR / 38;
-    } else {
-      hcx = (hr.left + hr.width * 0.72) * DPR;
-      hcy = (hr.top + hr.height * 0.42) * DPR;
-      hsc = Math.min(hr.width * 0.5, innerHeight * 0.85) * DPR / 38;
-    }
+    var hsc = hr.height * 0.68 / 30 * DPR;
+    var hcx = (hr.left + hr.width * 0.70) * DPR;   // right of the copy, fully inside the frame
+    var hcy = (hr.top + hr.height * 0.40) * DPR;
 
     for (var i = 0; i < particles.length; i++) {
       var pt = particles[i];
