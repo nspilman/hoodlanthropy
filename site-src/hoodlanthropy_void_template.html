@@ -382,29 +382,63 @@
     gap: 8px;
   }
   .tier .deliv strong { font-weight: 600; color: var(--silver); }
-  /* per-block navy highlighter swipes (orange's complement) behind each piece of
-     tier copy — distressed torn-paper strips (media/swipe-*.webp: ragged edges,
-     grunge holes, baked end-fade); text flips to cream */
-  #engagements .tier .tag,
-  #engagements .tier h3,
-  #engagements .tier p {
-    background: url("media/swipe-l.webp");
-    background-size: 100% 100%;
-    padding: 10px 18px 9px 14px;
-    margin-left: -14px;
+  /* ---------- MARKER STROKES (numbers → tier IV) ----------
+     permanent-marker ink behind every text block between the poster panels.
+     Drawn as a ::before border-image (media/marker-*.webp: solid navy ink,
+     wavy marker edges, dry-brush ends — no speckle) so the rag stays at
+     marker scale however tall the block runs; stretched backgrounds ballooned
+     the torn edges into blobs. z-index -1 keeps the ink under the type. */
+  .num .figure, .num .desc,
+  .split-copy > .h-lg, .split-copy > .body-copy, .split-side > .body-copy,
+  .cred-panel, .pillar .t, .pillar-cta,
+  #engagements > .h-lg, .tier .tag, .tier h3, .tier p, .tier .deliv {
+    position: relative;
   }
+  .num .figure::before, .num .desc::before,
+  .split-copy > .h-lg::before, .split-copy > .body-copy::before, .split-side > .body-copy::before,
+  .cred-panel::before, .pillar .t::before, .pillar-cta::before,
+  #engagements > .h-lg::before, .tier .tag::before, .tier h3::before, .tier p::before, .tier .deliv::before {
+    content: '';
+    position: absolute;
+    inset: -8px -16px;
+    z-index: -1;
+    border: 13px solid transparent;
+    border-image: url("media/marker-a.webp") 46 fill;   /* stretch, never round — tile junctions read as seams */
+  }
+  /* variant sprinkle so adjacent strokes don't twin */
+  .num:nth-child(even) .figure::before, .num:nth-child(odd) .desc::before,
+  .pillar:nth-child(even) .t::before, .split-side > .body-copy + .body-copy::before,
+  .tier p::before, .cred-panel::before { border-image-source: url("media/marker-b.webp"); }
+  /* dry-brush ends only on single-line strokes — tall fills would smear the fade */
+  .tier .tag::before, .tier h3::before { border-image-source: url("media/marker-l.webp"); }
+
+  /* type flips to cream on the ink; letterpress reads wrong on dark → soft drop */
+  .num .desc, .split-copy > .body-copy, .split-side > .body-copy,
+  .cred-panel .body-copy, .pillar .t span, .tier p, .tier .deliv {
+    color: #f3ddc4;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+  .num .figure, .pillar .t, .tier h3,
+  .split-copy > .body-copy strong, .split-side > .body-copy strong,
+  .cred-panel .body-copy strong, .tier .deliv strong, .cred-panel .org { color: var(--spark); }
+  .num .figure { display: inline-block; }   /* stroke hugs the numeral */
+  .num .figure em { color: #f58426; }
+  .tier .deliv { color: #d8b895; }
+  .pillar-cta:hover { color: #ffb36b; }
   #engagements .tier .tag { align-self: start; filter: brightness(2.1) saturate(0.9); }
-  #engagements .tier h3 { color: var(--spark); display: inline-block; }
-  #engagements .tier p { color: #f3ddc4; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5); }
-  #engagements .tier .deliv {
-    background: url("media/swipe-r.webp");
-    background-size: 100% 100%;
-    padding: 12px 14px 12px 18px;
-    margin-right: -14px;
-    color: #d8b895;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  #engagements .tier h3 { display: inline-block; }
+  /* marked headlines: solid poster orange, NOT the clip-gradient — clipped text
+     is the element's background, which paints beneath the negative-z ink slab */
+  .split-copy > .h-lg, #engagements > .h-lg {
+    background: none;
+    color: #f58426;
+    width: fit-content;   /* slab hugs the words, not the column */
+    filter:
+      drop-shadow(0 0.016em 0 #050301)
+      drop-shadow(0 0.016em 0 #050301)
+      drop-shadow(0 0.03em 0.08em rgba(0, 0, 0, 0.65));
   }
-  #engagements .tier .deliv strong { color: var(--spark); }
+  .split-copy > .h-lg .em-court { color: #35a87a; }
 
   /* ---------- INTAKE ---------- */
   .intake-form { max-width: 680px; margin-top: 60px; display: grid; gap: 44px; }
