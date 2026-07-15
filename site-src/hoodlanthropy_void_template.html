@@ -269,6 +269,7 @@
      the Book-a-Call button. (Strip is 56.25vw tall; tip sits 37% down the strip.) */
   header.poster .seamstack { margin-top: -23vw; }
   .seamstack .sky { height: 100%; }
+  .seamstack .sky-mob { display: none; }
   .seamstack .city { height: auto; position: relative; z-index: 1; }
   .seamstack .tearcap { height: clamp(24px, 3vw, 44px); align-self: start; position: relative; z-index: 2; }
   .seam-sm { display: block; width: 100%; height: clamp(24px, 3vw, 44px); }
@@ -567,7 +568,7 @@
     .hero-viz { min-height: 26vw; }
     nav .pill { white-space: nowrap; padding: 11px 16px; font-size: 13px; }
     /* blown-up skylines: crop the photos tall, let them overflow sideways;
-       the draw loop pans them horizontally as the page scrolls */
+       the draw loop pans them, horizon locked to the viewport's lower-third axis */
     .seamstack { overflow: hidden; height: 100vh; }
     .seamstack .city { width: auto; height: 120vh; max-width: none; will-change: transform; }
     .numbers { grid-template-columns: repeat(2, 1fr); gap: 48px 36px; }
@@ -580,6 +581,16 @@
     .form-row { grid-template-columns: 1fr; }
     .nav-links a:not(.pill) { display: none; }
     section { padding-top: 96px; }
+  }
+  /* DC pin runway, portrait phones only (landscape has no JS pan to drive it):
+     the strip is 260vh; the draw loop holds the photo in the viewport (emulated
+     sticky — real sticky would stack the sky over the ball canvas and hide the
+     brain) while the panorama pans Washington Monument → Capitol */
+  @media (max-width: 900px) and (orientation: portrait) {
+    #dcStack { height: 260vh; }
+    #dcStack .city { height: 135vh; }  /* Capitol spire kisses the top edge with the horizon on the lower third */
+    #dcStack .sky-desk { display: none; }
+    #dcStack .sky-mob { display: block; }
   }
 </style>
 </head>
@@ -640,8 +651,19 @@
         <stop offset="0.75" stop-color="#c94f1e"/>
         <stop offset="1" stop-color="#e04f1f"/>
       </linearGradient>
+      <!-- mobile: the strip is a 260vh pin runway, so the gradient stretches ~2.6x;
+           these stops keep the horizon warm at pan start and full blaze at the Capitol -->
+      <linearGradient id="dcGlowM" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#0a0e18"/>
+        <stop offset="0.10" stop-color="#2a1610"/>
+        <stop offset="0.26" stop-color="#8a3a18"/>
+        <stop offset="0.60" stop-color="#c94f1e"/>
+        <stop offset="0.85" stop-color="#e04f1f"/>
+        <stop offset="1" stop-color="#e04f1f"/>
+      </linearGradient>
     </defs>
-    <rect width="1200" height="675" fill="url(#dcGlow)"/>
+    <rect class="sky-desk" width="1200" height="675" fill="url(#dcGlow)"/>
+    <rect class="sky-mob" width="1200" height="675" fill="url(#dcGlowM)"/>
   </svg>
   <img class="city" id="dcSeam" src="__MEDIA_SKY_DC__" alt="">
 </div>
@@ -1142,19 +1164,21 @@
     PH1 = Math.max(PD2 + 0.05, PH2 - 0.3);
   }
 
-  // horizontal parallax for the blown-up mobile skylines: the photo glides a bounded
-  // sweep around its landmark (fx = landmark fraction in the image, sx = where it
-  // sits on screen when the strip is centered), so the dome / One WTC stays the shot
-  function pan(img, stack, dir, fx, sx) {
+  // pinned-horizon parallax for the blown-up mobile skylines: vertically the photo's
+  // horizon line (fy = its fraction of image height) locks to the strip's lower-third
+  // axis; horizontal glide is per-strip (DC: monument→Capitol pan, NYC: bounded sweep)
+  function place(img, r, x, fy) {
+    var y = r.height * 2 / 3 - fy * img.offsetHeight;
+    img.style.transform = 'translate(' + (-x).toFixed(1) + 'px,' + y.toFixed(1) + 'px)';
+  }
+  function pan(img, stack, dir, fx, sx, fy) {
     var over = img.offsetWidth - innerWidth;
     if (over <= 0) return;
     var r = stack.getBoundingClientRect();
     var t = Math.min(1, Math.max(0, (innerHeight - r.top) / (innerHeight + r.height)));
     var anchor = Math.min(over, Math.max(0, fx * img.offsetWidth - sx * innerWidth));
     var x = Math.min(over, Math.max(0, anchor + dir * (t - 0.5) * innerWidth * 0.5));
-    // vertical: the photo lags the scroll, drifting down through its 20vh headroom
-    var y = (1 - t) * (img.offsetHeight - r.height);
-    img.style.transform = 'translate(' + (-x).toFixed(1) + 'px,' + (-y).toFixed(1) + 'px)';
+    place(img, r, x, fy);
   }
 
   function draw(ms) {
@@ -1174,12 +1198,24 @@
     var sA = (portrait ? Math.min(W * 0.95, H * 0.45) : Math.min(W * 0.42, H * 0.82)) / 33;
     var axA = W * 0.70;
     var ayA = H * 0.52;   // seated below the "You've got" headline top
-    if (portrait) {       // phones: seat the brain on the DC skyline, dome occluding its lower edge
+    if (portrait) {       // phones: seat the brain on the DC horizon, skyline occluding its lower edge
+      // DC: the photo holds in the viewport while the page scrolls the 260vh runway
+      // (pinOff = emulated sticky), panning the panorama Washington Monument (load,
+      // camera near the left edge) → Capitol dome centered by the runway's end
       var dr = dcStack.getBoundingClientRect();
+      var pinRun = dr.height - innerHeight;
+      var pinOff = Math.min(pinRun, Math.max(0, -dr.top));
+      var tPan = pinOff / Math.max(1, pinRun);
+      var stTop = dr.top + pinOff;   // where the pinned 100vh window sits in the viewport
       axA = W * 0.5;
-      ayA = (dr.top + dr.height * 0.38) * DPR - sA * 16.5;   // bottom at 38% of the strip: the dome's crown pierces the lower lobes, ask.png-style
-      pan(dcSeam, dcStack, 1, 0.73, 0.68);        // Capitol dome into the brain's lower-right notch
-      pan(heartAnchor, nyStack, -1, 0.44, 0.50);  // One WTC centered through the heart
+      ayA = (stTop + innerHeight * 0.70) * DPR - sA * 16.5;   // bottom dips just past the lower-third horizon; the monument pierces it at load
+      var dw = dcSeam.offsetWidth, dOver = Math.max(0, dw - innerWidth);
+      var xs = Math.min(dOver, Math.max(0, 0.200 * dw - 0.55 * innerWidth));
+      var xe = Math.min(dOver, Math.max(0, 0.731 * dw - 0.50 * innerWidth));
+      var dx = xs + (xe - xs) * ease(tPan);
+      var dy = pinOff + innerHeight * 2 / 3 - 0.514 * dcSeam.offsetHeight;   // horizon locked to the lower-third axis
+      dcSeam.style.transform = 'translate(' + (-dx).toFixed(1) + 'px,' + dy.toFixed(1) + 'px)';
+      pan(heartAnchor, nyStack, -1, 0.44, 0.50, 0.606);  // One WTC centered through the heart
     }
     var bcx = lerp(axA, W * 0.16, tMove);
     var bcy = lerp(ayA, H * 0.52, tMove);
