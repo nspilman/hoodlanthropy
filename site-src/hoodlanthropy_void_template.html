@@ -325,7 +325,8 @@
     font-weight: 400;
     padding: 8px 0;
   }
-  .field select { background: var(--void); }
+  .field select { background: var(--amber); border-radius: 6px 6px 0 0; padding: 8px 10px; }
+  .field select option { background: var(--amber); color: var(--bone); }
   .field input:focus, .field select:focus, .field textarea:focus {
     outline: none;
     border-bottom-color: var(--bone);
@@ -981,9 +982,10 @@
       hcy = (fr.top - 270) * DPR;
       hsc = Math.min(hr.width * 0.9, 480) * DPR / 38;
     } else {
-      hcx = (hr.left + hr.width * 0.78) * DPR;
       hcy = (hr.top + hr.height * 0.50) * DPR;
       hsc = Math.min(hr.width * 0.56, innerHeight * 0.92) * DPR / 38;
+      // heart x-extent is ±16 units; clamp so the right lobe stays on-canvas at narrow widths
+      hcx = Math.min((hr.left + hr.width * 0.83) * DPR, W - hsc * 16 - 12 * DPR);
     }
 
     for (var i = 0; i < particles.length; i++) {
