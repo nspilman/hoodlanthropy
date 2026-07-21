@@ -11,11 +11,11 @@
   :root {
     --void: #d08048;         /* the page — neutral terracotta */
     --bone: #2a1608;         /* primary ink */
-    --ash: #50301a;          /* secondary text */
-    --silver: #3a2210;
+    --ash: #3c2210;          /* secondary text — dark enough for small type on the orange */
+    --silver: #2f1a0a;
     --amber: #f6e8d0;        /* cream action/accent — pops on the orange */
-    --spark: #6d2f52;        /* plum highlight (turn 2) */
-    --court: #17493a;        /* teal (turn 1) */
+    --spark: #4a1e37;        /* plum highlight (turn 2), deepened for small-text contrast */
+    --court: #113429;        /* teal (turn 1) */
     --court-deep: #10352a;
     --sky: #2e4a68;          /* steel (turn 4) */
     --rose: #7a3560;
@@ -86,7 +86,7 @@
   .pill {
     display: inline-block;
     background: var(--amber);
-    color: var(--void);
+    color: var(--bone);
     font-family: inherit;
     font-size: 14px;
     font-weight: 600;
@@ -99,11 +99,11 @@
     transition: background 0.2s, transform 0.2s;
   }
   .pill:hover { background: #ffffff; transform: translateY(-1px); }
-  .nav-links .pill { color: var(--void); }
+  .nav-links .pill { color: var(--bone); }
 
   /* ---------- TYPE ROLES ---------- */
   .label {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
     letter-spacing: 0.35px;
     text-transform: uppercase;
@@ -208,10 +208,10 @@
     font-variant-numeric: tabular-nums;
     margin-bottom: 12px;
   }
-  .num .figure em { font-style: normal; color: var(--amber); }
+  .num .figure em { font-style: normal; color: var(--spark); }
   .num .desc {
-    font-size: 14px;
-    font-weight: 200;
+    font-size: 15px;
+    font-weight: 400;
     color: var(--ash);
     line-height: 1.5;
     max-width: 220px;
@@ -237,11 +237,11 @@
     font-variant-numeric: tabular-nums;
   }
   .pillar .t { font-size: 28px; font-weight: 600; letter-spacing: -0.3px; line-height: 1.25; }
-  .pillar .t span { display: block; font-size: 16px; font-weight: 400; color: #38200e; margin-top: 6px; letter-spacing: 0; line-height: 1.55; max-width: 460px; }
+  .pillar .t span { display: block; font-size: 17px; font-weight: 400; color: #2f1a0b; margin-top: 6px; letter-spacing: 0; line-height: 1.55; max-width: 460px; }
   .pillar-cta {
     display: inline-block;
     margin-top: 48px;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 400;
     color: var(--spark);
     max-width: 420px;
@@ -260,15 +260,19 @@
     padding: 36px 0;
   }
   .tier .tag {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.35px;
     text-transform: uppercase;
+    color: var(--amber);
+    padding: 5px 12px;
+    border-radius: 4px;
+    width: fit-content;
   }
-  .tier:nth-child(1) .tag { color: var(--amber); }
-  .tier:nth-child(2) .tag { color: var(--court); }
-  .tier:nth-child(3) .tag { color: var(--sky); }
-  .tier:nth-child(4) .tag { color: var(--rose); }
+  .tier:nth-child(1) .tag { background: #7c3f16; }
+  .tier:nth-child(2) .tag { background: var(--court-deep); }
+  .tier:nth-child(3) .tag { background: var(--sky); }
+  .tier:nth-child(4) .tag { background: var(--rose); }
   .tier h3 { font-family: 'Anton', 'Arial Narrow', sans-serif; font-size: 27px; font-weight: 400; line-height: 1.15; letter-spacing: 0.3px; margin-bottom: 6px; }
   .tier p { font-size: 17px; font-weight: 400; color: #331d0c; max-width: 460px; }
   .tier .price {
@@ -280,15 +284,15 @@
   }
   .tier .price span {
     display: block;
-    font-size: 12px;
-    font-weight: 200;
+    font-size: 13px;
+    font-weight: 400;
     color: var(--ash);
     letter-spacing: 0.35px;
     text-transform: uppercase;
     margin-top: 3px;
   }
   .tier .deliv {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 400;
     color: var(--ash);
     letter-spacing: 0.35px;
@@ -304,7 +308,7 @@
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; }
   .field { display: grid; gap: 10px; }
   .field label {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.35px;
     text-transform: uppercase;
@@ -324,11 +328,11 @@
   .field select { background: var(--void); }
   .field input:focus, .field select:focus, .field textarea:focus {
     outline: none;
-    border-bottom-color: var(--amber);
+    border-bottom-color: var(--bone);
   }
   .field textarea { resize: vertical; min-height: 96px; }
   .field input::placeholder, .field textarea::placeholder { color: rgba(42, 22, 8, 0.5); opacity: 1; }
-  .form-note { font-size: 13px; font-weight: 400; color: var(--ash); max-width: 300px; }
+  .form-note { font-size: 14px; font-weight: 400; color: var(--ash); max-width: 300px; }
 
   /* ---------- FOUNDER ---------- */
   .founder-carousel { width: 100%; max-width: 420px; }
@@ -380,14 +384,14 @@
     transition: background 0.2s;
   }
   .fc-dots .dot:hover { background: var(--ash); }
-  .fc-dots .dot.active { background: var(--amber); }
+  .fc-dots .dot.active { background: var(--bone); }
   .creds { display: flex; gap: 30px; flex-wrap: wrap; margin-top: 36px; }
   .cred-btn {
     background: none;
     border: none;
     padding: 0 0 6px;
     font-family: inherit;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.35px;
     text-transform: uppercase;
@@ -421,7 +425,7 @@
     font-weight: 400;
     letter-spacing: -0.2px;
     color: var(--bone);
-    opacity: 0.75;
+    opacity: 0.85;
     white-space: nowrap;
   }
   .org:nth-child(odd) { font-weight: 200; letter-spacing: 0.4px; text-transform: uppercase; font-size: 14px; }
@@ -429,10 +433,10 @@
   /* ---------- CTA ---------- */
   .cta-final { text-align: left; padding-bottom: 60px; }
   .cta-final .display { max-width: 900px; }
-  .cta-final .display em { font-style: normal; color: var(--amber); }
+  .cta-final .display em { font-style: normal; color: var(--spark); }
   .cta-final .body-copy { margin: 36px 0; }
   .cta-final .email {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 400;
     letter-spacing: 0.35px;
     color: var(--spark);
@@ -445,13 +449,13 @@
     gap: 18px;
     flex-wrap: wrap;
     padding: 60px 0 48px;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.35px;
     text-transform: uppercase;
     color: var(--ash);
   }
-  footer .mid { color: var(--amber); }
+  footer .mid { color: var(--spark); }
 
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 900px) {
@@ -959,10 +963,10 @@
     var tHeart = ease((p - PH1) / (PH2 - PH1));
 
     var portrait = W < H;
-    var amb = portrait ? 0.18 : 0.3;   // dispersed-field alpha — fainter on phones so text stays clean
+    var amb = portrait ? 0.14 : 0.22;  // dispersed-field alpha — kept faint so text stays clean on the orange
     var sA = (portrait ? Math.min(W * 0.95, H * 0.45) : Math.min(W * 0.42, H * 0.82)) / 33;
     var axA = portrait ? W * 0.5 : W * 0.70;
-    var ayA = portrait ? H * 0.36 : H * 0.5;
+    var ayA = portrait ? H * 0.42 : H * 0.56;   // seated low so the crown clears the nav
     var bcx = lerp(axA, W * 0.16, tMove);
     var bcy = lerp(ayA, H * 0.52, tMove);
     var bsc = lerp(sA, sA * 1.9, tMove);
