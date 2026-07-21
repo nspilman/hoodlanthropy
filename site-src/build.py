@@ -19,8 +19,6 @@ MEDIA = {
     "__MEDIA_IMG__": "media/founder-portrait.png",
     "__MEDIA_VID1__": "media/founder-at-work.mp4",
     "__MEDIA_VID2__": "media/founder-mind.mp4",
-    "__MEDIA_SKY_NYC__": "media/skyline-nyc.webp",
-    "__MEDIA_SKY_DC__": "media/skyline-dc.webp",
 }
 
 html = (SRC / "hoodlanthropy_void_template.html").read_text(encoding="utf-8")
