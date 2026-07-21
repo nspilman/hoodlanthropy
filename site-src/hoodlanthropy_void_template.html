@@ -6,17 +6,19 @@
 <title>Hoodlanthropy — Philanthropic Advisory for Sport</title>
 <!--FONTFACE-->
 <style>
+  /* neutral-orange base #d08048 (H≈25°); accents = golden-angle (137.5°) turns:
+     n1 162.5° teal, n2 300° plum, n3 77.5° citron (lives in the tennis balls), n4 215° steel */
   :root {
-    --void: #000000;
-    --bone: #ffffff;
-    --ash: #a8a8a8;
-    --silver: #bdbdbd;
-    --amber: #d08048;        /* primary action — Hoodlanthropy brand */
-    --spark: #e6b96b;        /* warm highlight */
-    --court: #35a87a;        /* court green lifted for black canvas */
-    --court-deep: #1f5e3f;
-    --sky: #4e87b8;
-    --rose: #c14654;
+    --void: #d08048;         /* the page — neutral terracotta */
+    --bone: #2a1608;         /* primary ink */
+    --ash: #50301a;          /* secondary text */
+    --silver: #3a2210;
+    --amber: #f6e8d0;        /* cream action/accent — pops on the orange */
+    --spark: #6d2f52;        /* plum highlight (turn 2) */
+    --court: #17493a;        /* teal (turn 1) */
+    --court-deep: #10352a;
+    --sky: #2e4a68;          /* steel (turn 4) */
+    --rose: #7a3560;
     --max: 1280px;
   }
 
@@ -38,7 +40,7 @@
 
   .wrap { max-width: var(--max); margin: 0 auto; padding: 0 36px; }
 
-  ::selection { background: var(--amber); color: var(--void); }
+  ::selection { background: var(--bone); color: var(--amber); }
 
   a { color: var(--bone); text-decoration: none; }
   a:focus-visible, button:focus-visible {
@@ -96,7 +98,7 @@
     cursor: pointer;
     transition: background 0.2s, transform 0.2s;
   }
-  .pill:hover { background: var(--spark); transform: translateY(-1px); }
+  .pill:hover { background: #ffffff; transform: translateY(-1px); }
   .nav-links .pill { color: var(--void); }
 
   /* ---------- TYPE ROLES ---------- */
@@ -141,24 +143,19 @@
     filter:
       drop-shadow(0 0.016em 0 rgba(56, 50, 42, 0.95))
       drop-shadow(0 0.016em 0 rgba(26, 23, 19, 0.9))
-      drop-shadow(0 0.03em 0.08em rgba(0, 0, 0, 0.55))
-      drop-shadow(0 0 0.32em rgba(208, 128, 72, 0.16));
+      drop-shadow(0 0.03em 0.08em rgba(43, 20, 6, 0.4))
+      drop-shadow(0 0 0.32em rgba(43, 20, 6, 0.22));
   }
   .body-copy {
     font-weight: 400;
     font-size: 19px;
     line-height: 1.64;
-    color: #e9e5da;
+    color: #2b1708;
     max-width: 520px;
   }
-  /* reading text: raised emboss + constellation glow (light top edge, dark bevel, amber halo) */
+  /* reading text: subtle letterpress for dark ink on the orange page */
   .body-copy, .tier p, .pillar .t span, .tier .deliv, .form-note {
-    text-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.09),
-      0 -1px 0 rgba(0, 0, 0, 0.85),
-      0 0 14px rgba(208, 128, 72, 0.30),
-      0 0 4px rgba(231, 187, 106, 0.18),
-      0 3px 8px rgba(0, 0, 0, 0.7);
+    text-shadow: 0 1px 0 rgba(255, 238, 214, 0.28);
   }
   .body-copy strong { font-weight: 600; color: var(--bone); }
   .em-spark { color: var(--spark); }
@@ -240,7 +237,7 @@
     font-variant-numeric: tabular-nums;
   }
   .pillar .t { font-size: 28px; font-weight: 600; letter-spacing: -0.3px; line-height: 1.25; }
-  .pillar .t span { display: block; font-size: 16px; font-weight: 400; color: #ddd8cc; margin-top: 6px; letter-spacing: 0; line-height: 1.55; max-width: 460px; }
+  .pillar .t span { display: block; font-size: 16px; font-weight: 400; color: #38200e; margin-top: 6px; letter-spacing: 0; line-height: 1.55; max-width: 460px; }
   .pillar-cta {
     display: inline-block;
     margin-top: 48px;
@@ -273,7 +270,7 @@
   .tier:nth-child(3) .tag { color: var(--sky); }
   .tier:nth-child(4) .tag { color: var(--rose); }
   .tier h3 { font-family: 'Anton', 'Arial Narrow', sans-serif; font-size: 27px; font-weight: 400; line-height: 1.15; letter-spacing: 0.3px; margin-bottom: 6px; }
-  .tier p { font-size: 17px; font-weight: 400; color: #e2ddd2; max-width: 460px; }
+  .tier p { font-size: 17px; font-weight: 400; color: #331d0c; max-width: 460px; }
   .tier .price {
     font-size: 24px;
     font-weight: 400;
@@ -316,7 +313,7 @@
   .field input, .field select, .field textarea {
     background: transparent;
     border: none;
-    border-bottom: 1px solid #2e2e2e;
+    border-bottom: 1px solid #a15f2c;
     border-radius: 0;
     color: var(--bone);
     font-family: inherit;
@@ -330,6 +327,7 @@
     border-bottom-color: var(--amber);
   }
   .field textarea { resize: vertical; min-height: 96px; }
+  .field input::placeholder, .field textarea::placeholder { color: rgba(42, 22, 8, 0.5); opacity: 1; }
   .form-note { font-size: 13px; font-weight: 400; color: var(--ash); max-width: 300px; }
 
   /* ---------- FOUNDER ---------- */
@@ -340,9 +338,9 @@
     border-radius: 24px;
     overflow: hidden;
     background:
-      radial-gradient(circle at 30% 25%, rgba(208,128,72,0.45), transparent 60%),
-      radial-gradient(circle at 75% 80%, rgba(31,94,63,0.6), transparent 65%),
-      #0a0a0a;
+      radial-gradient(circle at 30% 25%, rgba(246,232,208,0.25), transparent 60%),
+      radial-gradient(circle at 75% 80%, rgba(23,73,58,0.6), transparent 65%),
+      #1a0d04;
   }
   .fc-frame .slide {
     position: absolute;
@@ -377,7 +375,7 @@
     border-radius: 50%;
     border: none;
     padding: 0;
-    background: #3a3a3a;
+    background: #aa6531;
     cursor: pointer;
     transition: background 0.2s;
   }
@@ -485,8 +483,8 @@
       <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
         <defs>
           <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#d08048"/>
-            <stop offset="1" stop-color="#1f5e3f"/>
+            <stop offset="0" stop-color="#f6e8d0"/>
+            <stop offset="1" stop-color="#10352a"/>
           </linearGradient>
         </defs>
         <path d="M13 1 L25 23 L1 23 Z" fill="url(#lg)"/>
@@ -789,7 +787,7 @@
   var ctx = canvas.getContext('2d');
   var heartAnchor = document.getElementById('intake');
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var COLORS = ['#d08048', '#e6b96b', '#35a87a', '#4e87b8', '#c14654', '#dda173', '#f5efe6'];
+  var COLORS = ['#f6e8d0', '#6d2f52', '#17493a', '#2e4a68', '#7a3560', '#a86134', '#f5efe6'];
   var DPR = Math.min(devicePixelRatio || 1, 2);
   var particles = [];
   var W, H, raf;
@@ -854,7 +852,7 @@
       ['#fffdf6', '#efe6d2', '#a99c82', '#d24a43'],   // baseball:  highlight, body, shadow, seam
       ['#eefb9a', '#c8e84a', '#748f1e', '#f5efe6'],   // tennis
       ['#b06a33', '#8a4b20', '#3f2009', '#f5efe6'],   // football
-      ['#e2a578', '#d08048', '#7c4a22', '#2a1608']    // basketball
+      ['#a86134', '#7c3f16', '#3f1e08', '#1f0f04']    // basketball: burnt so it separates from the terracotta page
     ];
     for (var sh = 0; sh < 4; sh++) {
       var R = SPR_R, cv = document.createElement('canvas');
